@@ -3,12 +3,13 @@ GeneratorBundle
 
 Extension for SensioGeneratorBundle which provides ability to override skeleton templates by putting it to app/Resources/EstinaGenerator.
 
-''Only CRUD generator supported so far.''
+**Only CRUD generator supported so far.**
 
 Usage
 =====
 
 Install it via Composer.
+
     ...
     "repositories": [{
         "type": "vcs",
