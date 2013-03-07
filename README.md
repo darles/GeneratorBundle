@@ -21,7 +21,7 @@ Install it via Composer.
     }
     ...
 
-Put the templates you want to override to app/Resources/EstinaGeneratorBundle/crud/<folder>/<template>
+Put the templates you want to override to app/Resources/EstinaGeneratorBundle/crud/FOLDER/TEMPLATE_NAME
 
 Run command
     app/console doctrine:generate:crud
