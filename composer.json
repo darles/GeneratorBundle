@@ -1,6 +1,12 @@
 {
     "name": "estina/generator-bundle",
     "description": "Extension for SensioGeneratorBundle which provides ability to override skeleton templates by putting it to app/Resources/EstinaGenerator.",
+    "authors": [
+        {
+            "name": "Zilvinas Kuusas",
+            "email": "zilvinas.k@estina.lt"
+        }
+    ],
     "keywords": ["generator", "symfony2", "doctrine"],
     "homepage": "http://github.com/Estina/GeneratorBundle",
     "type": "library",
