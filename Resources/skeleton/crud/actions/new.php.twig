@@ -10,7 +10,7 @@
      */
     public function newAction()
     {
-        $entity = new {{ entity_class }}();
+        $entity = new {{ entity_class }}Entity();
         $form   = $this->createForm(new {{ entity_class }}Type(), $entity);
 
 {% if 'annotation' == format %}
