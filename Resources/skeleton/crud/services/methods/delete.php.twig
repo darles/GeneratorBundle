@@ -3,6 +3,8 @@
     {
         if (is_int($param)) {
             $entity = $this->get($param);
+        } else {
+            $entity = $param;
         }
 
         $this->em->remove($entity);
