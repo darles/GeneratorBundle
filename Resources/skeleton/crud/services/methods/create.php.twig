@@ -1,0 +1,6 @@
+        
+    public function create({{ entity }}Entity $entity)
+    {        
+        $this->em->persist($entity);
+        $this->em->flush();
+    }

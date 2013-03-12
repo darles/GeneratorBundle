@@ -1,0 +1,7 @@
+parameters:
+    {{ service }}.class: {{ namespace }}\Service\{{ entity }}
+
+services:
+    {{ service }}:
+        class: %{{ service }}.class%
+        arguments: [@doctrine.orm.entity_manager]

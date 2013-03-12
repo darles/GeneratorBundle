@@ -1,0 +1,10 @@
+    
+    public function delete($param)
+    {
+        if (is_int($param)) {
+            $entity = $this->get($param);
+        }
+
+        $this->em->remove($entity);
+        $this->em->flush();
+    }

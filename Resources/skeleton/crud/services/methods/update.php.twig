@@ -1,0 +1,6 @@
+
+    public function update({{ entity }}Entity $entity)
+    {
+        $this->em->persist($entity);
+        $this->em->flush();
+    }
