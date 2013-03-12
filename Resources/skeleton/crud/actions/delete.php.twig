@@ -4,38 +4,18 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{id}", name="{{ route_name_prefix }}_delete")
-     * @Method("DELETE")
+     * @Method("GET")
 {% endif %}
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $entity = $this->get('{{ service }}')->get($id);
 
-        if ($form->isValid()) {
-            $entity = $this->get('{{ service }}')->get($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
-            }
-
-            $this->get('{{ service }}')->delete($entity);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
         }
 
-        return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
-    }
+        $this->get('{{ service }}')->delete($entity);
 
-    /**
-     * Creates a form to delete a {{ entity }} entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
-        ;
+        return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
     }
