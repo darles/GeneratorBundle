@@ -39,6 +39,8 @@ class DoctrineCrudGenerator extends BaseGenerator
             'entity'            => $this->entity,
             'namespace'         => $this->bundle->getNamespace(),
             'service'           => $this->getServiceId(),
+            'formService'       => $this->getFormServiceId(),
+            'formTypeService'       => $this->getFormTypeServiceId(),
         ));
 
         $services = $this->bundle->getPath() . '/Resources/config/services.' . $this->format;
@@ -84,6 +86,7 @@ class DoctrineCrudGenerator extends BaseGenerator
             'entity_namespace'  => $entityNamespace,
             'format'            => $this->format,
             'service'           => $this->getServiceId(),
+            'formService'       => $this->getFormServiceId(),
         ));
     }
 
@@ -119,9 +122,24 @@ class DoctrineCrudGenerator extends BaseGenerator
         ));
     }
 
+    public function getServiceIdPrefix()
+    {
+        return str_replace('Bundle', '', $this->bundle->getName());
+    }
+
     protected function getServiceId()
     {
-        return strtolower( str_replace('Bundle', '', $this->bundle->getName()) . '.service.' .  $this->entity );
+        return strtolower($this->getServiceIdPrefix() . '.service.' .  $this->entity);
+    }
+
+    protected function getFormServiceId()
+    {
+        return strtolower($this->getServiceIdPrefix() . '.form.' .  $this->entity);
+    }    
+
+    protected function getFormTypeServiceId()
+    {
+        return strtolower($this->getServiceIdPrefix() . '.form.type.' .  $this->entity);
     }
 
     /**
@@ -132,6 +150,7 @@ class DoctrineCrudGenerator extends BaseGenerator
     {
         $methods = array(
             '__construct',
+            'getNew',
             'get',
             'getAll',
             'create',

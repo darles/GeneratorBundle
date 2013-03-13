@@ -16,17 +16,18 @@
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
         }
 
-        $editForm = $this->createForm(new {{ entity_class }}Type(), $entity);
+        $form = $this->get('{{ formService }}');
+        $form->setData($entity);
 
 {% if 'annotation' == format %}
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $form->createView(),
         );
 {% else %}
         return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $form->createView(),
         ));
 {% endif %}
     }

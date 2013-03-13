@@ -16,10 +16,11 @@
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
         }
 
-        $editForm = $this->createForm(new {{ entity_class }}Type(), $entity);
-        $editForm->bind($request);
+        $form = $this->get('{{ formService }}');
+        $form->setData($entity);
+        $form->bindRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($form->isValid()) {
             $this->get('{{ service }}')->update($entity);
 
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}_edit', array('id' => $id)));
@@ -28,12 +29,12 @@
 {% if 'annotation' == format %}
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $form->createView(),
         );
 {% else %}
         return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $form->createView(),
         ));
 {% endif %}
     }

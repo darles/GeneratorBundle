@@ -1,7 +1,19 @@
 parameters:
     {{ service }}.class: {{ namespace }}\Service\{{ entity }}
+    {{ formTypeService }}.class: {{ namespace }}\Form\{{ entity }}Type
 
 services:
     {{ service }}:
         class: %{{ service }}.class%
         arguments: [@doctrine.orm.entity_manager]
+
+    {{ formTypeService }}:
+        class: %{{ formTypeService }}.class%
+        tags:
+            - { name: form.type }
+
+    {{ formService }}:
+        class: %form.factory.class%
+        factory_method: create
+        factory_service: form.factory
+        arguments: [ @{{ formTypeService }}  ]

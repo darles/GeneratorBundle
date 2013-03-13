@@ -10,9 +10,7 @@
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('{{ bundle }}:{{ entity }}')->findAll();
+        $entities = $this->get('{{ service }}')->getAll();
 
 {% if 'annotation' == format %}
         return array(
