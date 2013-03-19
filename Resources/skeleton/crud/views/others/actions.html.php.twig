@@ -1,0 +1,9 @@
+<ul>
+    {%- for action in record_actions %}
+    <li>
+        <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_" ~ action ~ "', array('id' => $entity->getId())) ?>" }}" class="btn">
+            {{ "<?=$view['translator']->trans('" ~ action ~ "')?>" }}
+        </a>
+    </li>
+    {%- endfor %}
+</ul>

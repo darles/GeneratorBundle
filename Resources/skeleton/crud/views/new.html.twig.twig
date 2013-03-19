@@ -1,0 +1,41 @@
+{{ "{% extends '::base.html.twig' %}" }}
+
+
+{{ "{% block header_row -%}" }}
+    <div class="span5">
+        <h2>{{ "{{ '" ~ entity ~ "'|trans }}" }} {{ "{{ 'Creation'|trans }}" }}</h2>
+    </div>
+    <nav class="span4">
+        {% set hide_edit, hide_delete = true, true %}
+        {% include 'views/others/record_actions.html.twig.twig' %}
+    </nav>
+{{ "{% endblock %}" }}
+
+{{ "{% block body -%}" }}
+    <div class="box">
+        <div class="row-fluid">
+            <div class="content form-horizontal">
+
+                <form action="{{ "{{ path('" ~ route_name_prefix ~ "_create', { 'id': entity.id }) }}" }}" method="post" {{ "{{ form_enctype(form) }}" }}>
+                    <div class="content dark">
+                        <fieldset>
+                            <legend><b>1.</b> {{ "{{ 'General information'|trans }}" }}</legend>
+                            {{ "{{ form_widget(form) }}" }}
+                        </fieldset>
+                    </div>
+
+                    <div class="content">
+                        <div class="row-fluid">
+                            <button type="submit" class="btn btn-large">{{ "{{ 'Create'|trans }}" }}</button> 
+                            <a href="{{ "{{ path('" ~ route_name_prefix ~ "') }}" }}">
+                                {{ "{{ 'Cancel'|trans }}" }}
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+{{ "{% endblock %}" }}

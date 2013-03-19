@@ -5,7 +5,7 @@
 {% if 'annotation' == format %}
      * @Route("/", name="{{ route_name_prefix }}_create")
      * @Method("POST")
-     * @Template("{{ bundle }}:{{ entity }}:new.html.twig")
+     * @Template("{{ bundle }}:{{ entity }}:new.html.{{ viewFormat }}")
 {% endif %}
      */
     public function createAction(Request $request)
@@ -18,6 +18,11 @@
         if ($form->isValid()) {
 
             $this->get('{{ service }}')->create($entity);
+
+            $this->get('session')->setFlash(
+                'success',
+                'Your changes were saved!'
+            );
 
             {% if 'show' in actions -%}
                 return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $entity->getId())));
@@ -33,7 +38,7 @@
             'form'   => $form->createView(),
         );
 {% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:new.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:new.html.{{ viewFormat }}', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));

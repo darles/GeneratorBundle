@@ -65,10 +65,22 @@ class EstinaGeneratorBundle extends Bundle
     {
         $kernel = $this->container->get('kernel');
         
-        return array(
-            $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/' . $generatorName,
-            $kernel->locateResource('@' . $this->getName()) . '/Resources/skeleton/' . $generatorName,
-            $kernel->locateResource('@SensioGeneratorBundle') . '/Resources/skeleton/' . $generatorName,
-        );
+        if ($generatorName == 'views') {
+            return array(
+                $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/' . $generatorName . '/twig',
+                $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/' . $generatorName . '/php',
+                $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/' . $generatorName,
+                $kernel->locateResource('@' . $this->getName()) . '/Resources/skeleton/' . $generatorName . '/twig',
+                $kernel->locateResource('@' . $this->getName()) . '/Resources/skeleton/' . $generatorName . '/php',
+                $kernel->locateResource('@' . $this->getName()) . '/Resources/skeleton/' . $generatorName,
+                $kernel->locateResource('@SensioGeneratorBundle') . '/Resources/skeleton/' . $generatorName ,
+            );
+        } else {
+            return array(
+                $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/' . $generatorName,
+                $kernel->locateResource('@' . $this->getName()) . '/Resources/skeleton/' . $generatorName,
+                $kernel->locateResource('@SensioGeneratorBundle') . '/Resources/skeleton/' . $generatorName,
+            );
+        }
     }
 }

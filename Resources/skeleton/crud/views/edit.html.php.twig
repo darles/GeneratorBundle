@@ -1,0 +1,39 @@
+{{ "<? $view->extend('::base.html.php'); ?>" }}
+
+{{ "<?php $view['slots']->start('header_row') ?>" }}
+    <div class="span5">
+        <h2>{{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }} {{ "<?=$view['translator']->trans('Edit')?>" }}</h2>
+    </div>
+    <nav class="span4">
+        {% set hide_edit, hide_delete = true, false %}
+        {% include 'views/others/record_actions.html.php.twig' %}
+    </nav>
+{{ "<?php $view['slots']->stop('header_row') ?>" }}
+
+{{ "<?php $view['slots']->start('body') ?>" }}
+    <div class="box">
+        <div class="row-fluid">
+            <div class="content form-horizontal">
+
+                <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_update', array('id' => $entity->getId())) ?>" }}" method="post" {{ "<?= $view['form']->enctype($form) ?>" }}>
+                    <div class="content dark">
+                        <fieldset>
+                            <legend><b>1.</b> {{ "<?=$view['translator']->trans('General information')?>" }}</legend>
+                            {{ "<?= $view['form']->widget($form) ?>" }}
+                        </fieldset>
+                    </div>
+
+                    <div class="content">
+                        <div class="row-fluid">
+                            <button type="submit" class="btn btn-large">{{ "<?=$view['translator']->trans('Edit')?>" }}</button> 
+                            <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
+                                {{ "<?=$view['translator']->trans('Cancel')?>" }}
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{{ "<?php $view['slots']->stop('body') ?>" }}

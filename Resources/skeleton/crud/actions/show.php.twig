@@ -21,7 +21,7 @@
             'entity'      => $entity,
         );
 {% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:show.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:show.html.{{ viewFormat }}', array(
             'entity'      => $entity,
         ));
 {% endif %}

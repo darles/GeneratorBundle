@@ -4,8 +4,8 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{id}", name="{{ route_name_prefix }}_update")
-     * @Method("PUT")
-     * @Template("{{ bundle }}:{{ entity }}:edit.html.twig")
+     * @Method("POST")
+     * @Template("{{ bundle }}:{{ entity }}:edit.html.{{ viewFormat }}")
 {% endif %}
      */
     public function updateAction(Request $request, $id)
@@ -23,6 +23,11 @@
         if ($form->isValid()) {
             $this->get('{{ service }}')->update($entity);
 
+            $this->get('session')->setFlash(
+                'success',
+                'Your changes were saved!'
+            );
+
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}_edit', array('id' => $id)));
         }
 
@@ -32,7 +37,7 @@
             'form'   => $form->createView(),
         );
 {% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:edit.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:edit.html.{{ viewFormat }}', array(
             'entity'      => $entity,
             'form'   => $form->createView(),
         ));

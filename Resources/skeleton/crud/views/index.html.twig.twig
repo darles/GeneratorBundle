@@ -1,0 +1,47 @@
+{{ "{% extends '::base.html.twig' %}" }}
+
+{{ "{% block header_row -%}" }}
+    <div class="span5">
+        <h2>{{ "{{ '" ~ entity ~ "'|trans }}" }} {{ "{{ 'Listing'|trans }}" }}</h2>
+    </div>
+    <nav class="span4">
+        {% if 'new' in actions %}
+            <a href="{{ "{{ path('" ~ route_name_prefix ~ "_new') }}" }}" class="btn btn-small pull-right">
+                {{ "{{ 'Create new'|trans }}" }}
+            </a>
+        {% endif %}
+    </nav>
+{{ "{% endblock %}" }}
+
+{{ "{% block body -%}" }}
+    <article>
+
+        {{ '{% for entity in entities %}' }}
+        <div class="box box-row">
+            <div class="row-fluid info">
+                <div class="span5 offset1">
+                    <b>{{ '{{ entity }}' }}</b>
+                </div>
+                <div class="span2 txt-light">
+                   {# {{ '{{ entity.created }}' }} #}
+                </div>
+                <div class="span4 status">
+                    {%- include "views/others/actions.html.twig.twig" %}
+                </div>
+            </div>
+        </div>
+        {{ '{% endfor %}' }}
+
+        {{ '{% if entities == null %}' }}
+            <div class="box box-row">
+                <div class="row-fluid">
+                    <div class="content">
+                        <p>{{ "{{ 'No entries'|trans }}" }}</p>
+                    </div>
+                </div>
+            </div>
+        {{ '{% endif %}' }}
+
+    </article>
+
+{{ "{% endblock %}" }}

@@ -8,6 +8,8 @@ use Sensio\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator as BaseGenerat
 
 class DoctrineCrudGenerator extends BaseGenerator
 {
+    protected $viewFormat = 'php';
+
     public function generate(BundleInterface $bundle, $entity, ClassMetadataInfo $metadata, $format, $routePrefix, $needWriteActions, $forceOverwrite)
     {
         parent::generate($bundle, $entity, $metadata, $format, $routePrefix, $needWriteActions, $forceOverwrite);
@@ -87,6 +89,7 @@ class DoctrineCrudGenerator extends BaseGenerator
             'format'            => $this->format,
             'service'           => $this->getServiceId(),
             'formService'       => $this->getFormServiceId(),
+            'viewFormat'        => $this->viewFormat,
         ));
     }
 
@@ -122,7 +125,74 @@ class DoctrineCrudGenerator extends BaseGenerator
         ));
     }
 
-    public function getServiceIdPrefix()
+    /**
+     * Generates the index.html.twig template in the final bundle.
+     *
+     * @param string $dir The path to the folder that hosts templates in the bundle
+     */
+    protected function generateIndexView($dir)
+    {
+        $this->renderFile($this->skeletonDir, 'views/index.html.' . $this->viewFormat . '.twig', $dir.'/index.html.' . $this->viewFormat, array(
+            'dir'               => $this->skeletonDir,
+            'entity'            => $this->entity,
+            'fields'            => $this->metadata->fieldMappings,
+            'actions'           => $this->actions,
+            'record_actions'    => $this->getRecordActions(),
+            'route_prefix'      => $this->routePrefix,
+            'route_name_prefix' => $this->routeNamePrefix,
+        ));
+    }
+
+    /**
+     * Generates the show.html.twig template in the final bundle.
+     *
+     * @param string $dir The path to the folder that hosts templates in the bundle
+     */
+    protected function generateShowView($dir)
+    {
+        $this->renderFile($this->skeletonDir, 'views/show.html.' . $this->viewFormat . '.twig', $dir.'/show.html.' . $this->viewFormat, array(
+            'dir'               => $this->skeletonDir,
+            'entity'            => $this->entity,
+            'fields'            => $this->metadata->fieldMappings,
+            'actions'           => $this->actions,
+            'route_prefix'      => $this->routePrefix,
+            'route_name_prefix' => $this->routeNamePrefix,
+        ));
+    }
+
+    /**
+     * Generates the new.html.twig template in the final bundle.
+     *
+     * @param string $dir The path to the folder that hosts templates in the bundle
+     */
+    protected function generateNewView($dir)
+    {
+        $this->renderFile($this->skeletonDir, 'views/new.html.' . $this->viewFormat . '.twig', $dir.'/new.html.' . $this->viewFormat, array(
+            'dir'               => $this->skeletonDir,
+            'route_prefix'      => $this->routePrefix,
+            'route_name_prefix' => $this->routeNamePrefix,
+            'entity'            => $this->entity,
+            'actions'           => $this->actions,
+        ));
+    }
+
+    /**
+     * Generates the edit.html.twig template in the final bundle.
+     *
+     * @param string $dir The path to the folder that hosts templates in the bundle
+     */
+    protected function generateEditView($dir)
+    {
+        $this->renderFile($this->skeletonDir, 'views/edit.html.' . $this->viewFormat . '.twig', $dir.'/edit.html.' . $this->viewFormat, array(
+            'dir'               => $this->skeletonDir,
+            'route_prefix'      => $this->routePrefix,
+            'route_name_prefix' => $this->routeNamePrefix,
+            'entity'            => $this->entity,
+            'actions'           => $this->actions,
+        ));
+    }
+
+    protected function getServiceIdPrefix()
     {
         return str_replace('Bundle', '', $this->bundle->getName());
     }
