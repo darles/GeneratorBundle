@@ -29,7 +29,7 @@
 {{ route_name_prefix }}_update:
     pattern:  /{id}/update
     defaults: { _controller: "{{ bundle }}:{{ entity }}:update" }
-    requirements: { _method: post|put }
+    requirements: { _method: post }
 {% endif %}
 
 {% if 'delete' in actions %}

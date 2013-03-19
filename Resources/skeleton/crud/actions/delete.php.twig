@@ -17,5 +17,10 @@
 
         $this->get('{{ service }}')->delete($entity);
 
+        $this->get('session')->setFlash(
+            'success',
+            'Your changes were saved!'
+        );
+
         return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
     }

@@ -19,6 +19,11 @@
 
             $this->get('{{ service }}')->create($entity);
 
+            $this->get('session')->setFlash(
+                'success',
+                'Your changes were saved!'
+            );
+
             {% if 'show' in actions -%}
                 return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $entity->getId())));
             {%- else -%}

@@ -4,7 +4,7 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{id}", name="{{ route_name_prefix }}_update")
-     * @Method("PUT")
+     * @Method("POST")
      * @Template("{{ bundle }}:{{ entity }}:edit.html.twig")
 {% endif %}
      */
@@ -22,6 +22,11 @@
 
         if ($form->isValid()) {
             $this->get('{{ service }}')->update($entity);
+
+            $this->get('session')->setFlash(
+                'success',
+                'Your changes were saved!'
+            );
 
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}_edit', array('id' => $id)));
         }
