@@ -23,12 +23,9 @@
         if ($form->isValid()) {
             $this->get('{{ service }}')->update($entity);
 
-            $this->get('session')->setFlash(
-                'success',
-                'Your changes were saved!'
-            );
+            $this->get('session')->getFlashBag()->add('success', 'Your changes were saved!');
 
-            return $this->redirect($this->generateUrl('{{ route_name_prefix }}_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
         }
 
 {% if 'annotation' == format %}
