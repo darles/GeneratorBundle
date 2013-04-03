@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\Console\Application;
 use Estina\GeneratorBundle\Generator\DoctrineCrudGenerator;
 use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
-use Symfony\Component\Filesystem\FileSystem;
+use Symfony\Component\Filesystem\Filesystem;
 
 class EstinaGeneratorBundle extends Bundle
 {
@@ -33,7 +33,7 @@ class EstinaGeneratorBundle extends Bundle
 
         $dirs = $this->getDirs('crud');
 
-        $generator = new DoctrineCrudGenerator(new FileSystem, $dirs);
+        $generator = new DoctrineCrudGenerator(new Filesystem, $dirs);
         $crudCommand->setGenerator($generator);
     }
 
@@ -50,7 +50,7 @@ class EstinaGeneratorBundle extends Bundle
 
         $dirs = $this->getDirs('bundle');
 
-        $generator = new BundleGenerator(new FileSystem, $dirs);
+        $generator = new BundleGenerator(new Filesystem, $dirs);
         $crudCommand->setGenerator($generator);
     }
 
