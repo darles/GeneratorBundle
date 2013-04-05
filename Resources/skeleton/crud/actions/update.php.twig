@@ -18,7 +18,7 @@
 
         $form = $this->get('{{ formService }}');
         $form->setData($entity);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $this->get('{{ service }}')->update($entity);
