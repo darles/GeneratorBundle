@@ -223,8 +223,7 @@ class DoctrineCrudGenerator extends BaseGenerator
             'getNew',
             'get',
             'getAll',
-            'create',
-            'update',
+            'save',
             'delete',
             'getRepository',
         );

@@ -17,7 +17,7 @@
 
         if ($form->isValid()) {
 
-            $this->get('{{ service }}')->create($entity);
+            $this->get('{{ service }}')->save($entity);
 
             $this->get('session')->getFlashBag()->add('success', 'Your changes were saved!');
 

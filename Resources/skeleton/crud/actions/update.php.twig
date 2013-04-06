@@ -21,7 +21,7 @@
         $form->bind($request);
 
         if ($form->isValid()) {
-            $this->get('{{ service }}')->update($entity);
+            $this->get('{{ service }}')->save($entity);
 
             $this->get('session')->getFlashBag()->add('success', 'Your changes were saved!');
 
