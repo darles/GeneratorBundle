@@ -10,7 +10,8 @@
      */
     public function newAction()
     {
-        $entity = $this->get('{{ service }}')->getNew();
+        $service = $this->get('{{ service }}');
+        $entity = $service->getNew();
         $form = $this->get('{{ formService }}');
         $form->setData($entity);
 

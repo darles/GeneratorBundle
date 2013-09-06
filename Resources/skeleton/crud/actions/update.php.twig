@@ -10,7 +10,8 @@
      */
     public function updateAction(Request $request, $id)
     {
-        $entity = $this->get('{{ service }}')->get($id);
+        $service = $this->get('{{ service }}');
+        $entity = $service->get($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
@@ -21,7 +22,8 @@
         $form->bind($request);
 
         if ($form->isValid()) {
-            $this->get('{{ service }}')->save($entity);
+            $service->update($entity);
+            $service->save();
 
             $this->get('session')->getFlashBag()->add('success', 'Your changes were saved!');
 

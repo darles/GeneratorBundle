@@ -9,13 +9,14 @@
      */
     public function deleteAction(Request $request, $id)
     {
-        $entity = $this->get('{{ service }}')->get($id);
+        $service = $this->get('{{ service }}');
+        $entity = $service->get($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
         }
 
-        $this->get('{{ service }}')->delete($entity);
+        $service->delete($entity);
 
         $this->get('session')->setFlash(
             'success',

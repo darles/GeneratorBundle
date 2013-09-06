@@ -10,7 +10,8 @@
      */
     public function editAction($id)
     {
-        $entity = $this->get('{{ service }}')->get($id);
+        $service = $this->get('{{ service }}');
+        $entity = $service->get($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');

@@ -10,7 +10,8 @@
      */
     public function indexAction()
     {
-        $entities = $this->get('{{ service }}')->getAll();
+        $service = $this->get('{{ service }}');
+        $entities = $service->getAll();
 
 {% if 'annotation' == format %}
         return array(

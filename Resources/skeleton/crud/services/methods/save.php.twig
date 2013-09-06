@@ -1,6 +1,5 @@
 
-    public function save(Entity\{{ entity }} $entity)
+    public function save()
     {
-        $this->em->persist($entity);
         $this->em->flush();
     }

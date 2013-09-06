@@ -14,6 +14,7 @@ class DoctrineCrudGenerator extends BaseGenerator
     {
         parent::generate($bundle, $entity, $metadata, $format, $routePrefix, $needWriteActions, $forceOverwrite);
 
+        $this->generateServiceConfiguration();
         $this->generateServiceClass();
     }
 
@@ -21,19 +22,22 @@ class DoctrineCrudGenerator extends BaseGenerator
      * Generates the service configuration.
      *
      */
-    protected function generateConfiguration()
+    protected function generateServiceConfiguration()
     {
-        parent::generateConfiguration();
+        $format = $this->format;
+        if ($format != 'yml') {
+            $format = 'yml';
+        }
 
         $configName = strtolower(str_replace('\\', '_', $this->entity));
         $target = sprintf(
             '%s/Resources/config/services/%s.%s',
             $this->bundle->getPath(),
             $configName,
-            $this->format
+            $format
         );
 
-        $this->renderFile($this->skeletonDir, 'config/services.'.$this->format.'.twig', $target, array(
+        $this->renderFile('config/services.'.$format.'.twig', $target, array(
             'actions'           => $this->actions,
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
@@ -41,12 +45,13 @@ class DoctrineCrudGenerator extends BaseGenerator
             'entity'            => $this->entity,
             'namespace'         => $this->bundle->getNamespace(),
             'service'           => $this->getServiceId(),
+            'repository'           => $this->getRepositoryId(),
             'formService'       => $this->getFormServiceId(),
             'formTypeService'       => $this->getFormTypeServiceId(),
         ));
 
-        $services = $this->bundle->getPath() . '/Resources/config/services.' . $this->format;
-        $content = "\n    " . '- { resource: services/' . $configName . '.' . $this->format . ' }';
+        $services = $this->bundle->getPath() . '/Resources/config/services.' . $format;
+        $content = "\n    " . '- { resource: services/' . $configName . '.' . $format . ' }';
         if (!strstr(file_get_contents($services), $content)) {
             file_put_contents($services, $content, FILE_APPEND);
         }
@@ -76,17 +81,17 @@ class DoctrineCrudGenerator extends BaseGenerator
             throw new \RuntimeException('Unable to generate the controller as it already exists.');
         }
 
-        $this->renderFile($this->skeletonDir, 'controller.php.twig', $target, array(
+        $this->renderFile('controller.php.twig', $target, array(
             'actions'           => $this->actions,
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
-            'dir'               => $this->skeletonDir,
             'bundle'            => $this->bundle->getName(),
             'entity'            => $this->entity,
             'entity_class'      => $entityClass,
             'namespace'         => $this->bundle->getNamespace(),
             'entity_namespace'  => $entityNamespace,
             'format'            => $this->format,
+            // customizations
             'service'           => $this->getServiceId(),
             'formService'       => $this->getFormServiceId(),
             'viewFormat'        => $this->viewFormat,
@@ -100,16 +105,17 @@ class DoctrineCrudGenerator extends BaseGenerator
      */
     protected function generateServiceClass()
     {
+
         $parts = explode('\\', $this->entity);
         $entityClass = array_pop($parts);
         $entityNamespace = implode('\\', $parts);
 
         $dir    = $this->bundle->getPath() .'/Service';
-        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'.php';
+        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'Service.php';
 
         $methods = $this->getServiceMethods($this->actions);
 
-        $this->renderFile($this->skeletonDir, 'services/service.php.twig', $target, array(
+        $this->renderFile('services/service.php.twig', $target, array(
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
             'entity'            => $this->entity,
@@ -119,7 +125,6 @@ class DoctrineCrudGenerator extends BaseGenerator
             'actions'           => $this->actions,
             'methods'           => $methods,
             'form_type_name'    => strtolower(str_replace('\\', '_', $this->bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$entityClass.'Type'),
-            'dir'               => $this->skeletonDir,
             'bundle'            => $this->bundle->getName(),
             'service'           => $this->getServiceId(),
         ));
@@ -132,8 +137,7 @@ class DoctrineCrudGenerator extends BaseGenerator
      */
     protected function generateIndexView($dir)
     {
-        $this->renderFile($this->skeletonDir, 'views/index.html.' . $this->viewFormat . '.twig', $dir.'/index.html.' . $this->viewFormat, array(
-            'dir'               => $this->skeletonDir,
+        $this->renderFile('views/index.html.' . $this->viewFormat . '.twig', $dir.'/index.html.' . $this->viewFormat, array(
             'entity'            => $this->entity,
             'fields'            => $this->metadata->fieldMappings,
             'actions'           => $this->actions,
@@ -150,8 +154,7 @@ class DoctrineCrudGenerator extends BaseGenerator
      */
     protected function generateShowView($dir)
     {
-        $this->renderFile($this->skeletonDir, 'views/show.html.' . $this->viewFormat . '.twig', $dir.'/show.html.' . $this->viewFormat, array(
-            'dir'               => $this->skeletonDir,
+        $this->renderFile('views/show.html.' . $this->viewFormat . '.twig', $dir.'/show.html.' . $this->viewFormat, array(
             'entity'            => $this->entity,
             'fields'            => $this->metadata->fieldMappings,
             'actions'           => $this->actions,
@@ -167,8 +170,7 @@ class DoctrineCrudGenerator extends BaseGenerator
      */
     protected function generateNewView($dir)
     {
-        $this->renderFile($this->skeletonDir, 'views/new.html.' . $this->viewFormat . '.twig', $dir.'/new.html.' . $this->viewFormat, array(
-            'dir'               => $this->skeletonDir,
+        $this->renderFile('views/new.html.' . $this->viewFormat . '.twig', $dir.'/new.html.' . $this->viewFormat, array(
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
             'entity'            => $this->entity,
@@ -183,8 +185,7 @@ class DoctrineCrudGenerator extends BaseGenerator
      */
     protected function generateEditView($dir)
     {
-        $this->renderFile($this->skeletonDir, 'views/edit.html.' . $this->viewFormat . '.twig', $dir.'/edit.html.' . $this->viewFormat, array(
-            'dir'               => $this->skeletonDir,
+        $this->renderFile('views/edit.html.' . $this->viewFormat . '.twig', $dir.'/edit.html.' . $this->viewFormat, array(
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
             'entity'            => $this->entity,
@@ -194,12 +195,21 @@ class DoctrineCrudGenerator extends BaseGenerator
 
     protected function getServiceIdPrefix()
     {
-        return str_replace('Bundle', '', $this->bundle->getName());
+        $id = str_replace('\\', '_', $this->bundle->getNamespace());
+        $id = str_replace('Bundle', '', $id);
+        $id = strtolower($id);
+
+        return $id;
     }
 
     protected function getServiceId()
     {
         return strtolower($this->getServiceIdPrefix() . '.service.' .  $this->entity);
+    }
+
+    protected function getRepositoryId()
+    {
+        return strtolower($this->getServiceIdPrefix() . '.repository.' .  $this->entity);
     }
 
     protected function getFormServiceId()
@@ -223,9 +233,10 @@ class DoctrineCrudGenerator extends BaseGenerator
             'getNew',
             'get',
             'getAll',
-            'save',
+            'create',
+            'update',
             'delete',
-            'getRepository',
+            'save',
         );
 
         foreach ($actions as $action) {

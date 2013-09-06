@@ -33,7 +33,8 @@ class EstinaGeneratorBundle extends Bundle
 
         $dirs = $this->getDirs('crud');
 
-        $generator = new DoctrineCrudGenerator(new Filesystem, $dirs);
+        $generator = new DoctrineCrudGenerator($this->container->get('filesystem'));
+        $generator->setSkeletonDirs($dirs);
         $crudCommand->setGenerator($generator);
     }
 
@@ -50,7 +51,8 @@ class EstinaGeneratorBundle extends Bundle
 
         $dirs = $this->getDirs('bundle');
 
-        $generator = new BundleGenerator(new Filesystem, $dirs);
+        $generator = new BundleGenerator($this->container->get('filesystem'));
+        $generator->setSkeletonDirs($dirs);
         $crudCommand->setGenerator($generator);
     }
 
@@ -66,21 +68,34 @@ class EstinaGeneratorBundle extends Bundle
         $kernel = $this->container->get('kernel');
         
         if ($generatorName == 'views') {
-            return array(
+            $return = array(
                 $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/' . $generatorName . '/twig',
                 $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/' . $generatorName . '/php',
                 $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/' . $generatorName,
+                $kernel->getRootDir() . '/Resources/SensioGeneratorBundle/skeleton/' . $generatorName,
                 $kernel->locateResource('@' . $this->getName()) . '/Resources/skeleton/' . $generatorName . '/twig',
                 $kernel->locateResource('@' . $this->getName()) . '/Resources/skeleton/' . $generatorName . '/php',
                 $kernel->locateResource('@' . $this->getName()) . '/Resources/skeleton/' . $generatorName,
                 $kernel->locateResource('@SensioGeneratorBundle') . '/Resources/skeleton/' . $generatorName ,
+                $kernel->locateResource('@SensioGeneratorBundle') . '/Resources/skeleton/',
             );
         } else {
-            return array(
+            $return = array(
+                $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/',
                 $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/' . $generatorName,
                 $kernel->locateResource('@' . $this->getName()) . '/Resources/skeleton/' . $generatorName,
                 $kernel->locateResource('@SensioGeneratorBundle') . '/Resources/skeleton/' . $generatorName,
+                $kernel->locateResource('@SensioGeneratorBundle') . '/Resources/skeleton/',
             );
         }
+
+        $r = array();
+        foreach ($return as $dir) {
+            if (is_dir($dir)) {
+                $r[] = $dir;
+            }
+        }
+
+        return $r;
     }
 }

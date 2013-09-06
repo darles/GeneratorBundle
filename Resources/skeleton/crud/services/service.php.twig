@@ -4,10 +4,21 @@ namespace {{ namespace }}\Service;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
-use {{ namespace }}\Entity;
+use Doctrine\ORM\EntityRepository;
+use {{ namespace }}\Entity\{{ entity }};
 
-class {{ entity }}
+class {{ entity }}Service
 {
+    /**
+     * Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
+     * @var Doctrine\ORM\EntityRepository
+     */
+    private $repo;
+
 {# create methods #}
 {% for method in methods %}
 

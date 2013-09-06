@@ -1,11 +1,21 @@
 parameters:
-    {{ service }}.class: {{ namespace }}\Service\{{ entity }}
+    {{ repository }}.class: {{ namespace }}\Entity\{{ entity }}Repository
+    {{ service }}.class: {{ namespace }}\Service\{{ entity }}Service
     {{ formTypeService }}.class: {{ namespace }}\Form\{{ entity }}Type
 
 services:
+    {{ repository }}:
+        class: %{{ repository }}.class%
+        factory_service: doctrine.orm.entity_manager
+        factory_method:  getRepository
+        arguments:
+            - {{ bundle }}:{{ entity }}
+
     {{ service }}:
         class: %{{ service }}.class%
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: 
+            - @doctrine.orm.entity_manager
+            - @{{ repository }}
 
     {{ formTypeService }}:
         class: %{{ formTypeService }}.class%
