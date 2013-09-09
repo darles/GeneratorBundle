@@ -1,37 +1,46 @@
 {{ "<? $view->extend('::base.html.php'); ?>" }}
 
-{{ "<?php $view['slots']->start('header_row') ?>" }}
-    <div class="span5">
-        <h2>{{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }} {{ "<?=$view['translator']->trans('Edit')?>" }}</h2>
+
+{{ "<? $view['slots']->start('breadcrumb') ?>" }}
+    <li>
+        <a class="crumb" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
+            {{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }}
+        </a>
+        <span class="divider">/</span>
+    </li>
+    <li>
+        <a class="crumb" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_edit', array('id' => $entity->getId())) ?>" }}">
+            {{ "<?=$entity?>" }}
+        </a>
+        <span class="divider">/</span>
+    </li>
+    <li>
+        <a class="crumb active" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_edit', array('id' => $entity->getId())) ?>" }}">
+            Edit
+        </a>
+    </li>
+{{ "<? $view['slots']->stop('breadcrumb') ?>" }}
+
+{{ "<?php $view['slots']->start('box_buttons') ?>" }}
+    {% set hide_edit, hide_delete = true, false %}
+    {% include 'views/others/record_actions.html.php.twig' %}
+{{ "<?php $view['slots']->stop('box_buttons') ?>" }}
+
+<div class="padded">
+    <div class="section-title">
+        General information
     </div>
-    <nav class="span4">
-        {% set hide_edit, hide_delete = true, false %}
-        {% include 'views/others/record_actions.html.php.twig' %}
-    </nav>
-{{ "<?php $view['slots']->stop('header_row') ?>" }}
 
-<div class="box">
-    <div class="row-fluid">
-        <div class="content form-horizontal">
+    <div class="vpadded">
+        <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_update', array('id' => $entity->getId())) ?>" }}" method="post" {{ "<?= $view['form']->enctype($form) ?>" }}>
+            {{ "<?= $view['form']->widget($form) ?>" }}
 
-            <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_update', array('id' => $entity->getId())) ?>" }}" method="post" {{ "<?= $view['form']->enctype($form) ?>" }}>
-                <div class="content dark">
-                    <fieldset>
-                        <legend><b>1.</b> {{ "<?=$view['translator']->trans('General information')?>" }}</legend>
-                        {{ "<?= $view['form']->widget($form) ?>" }}
-                    </fieldset>
-                </div>
-
-                <div class="content">
-                    <div class="row-fluid">
-                        <button type="submit" class="btn btn-large">{{ "<?=$view['translator']->trans('Edit')?>" }}</button> 
-                        <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
-                            {{ "<?=$view['translator']->trans('Cancel')?>" }}
-                        </a>
-                    </div>
-                </div>
-            </form>
-
-        </div>
+            <button type="submit" class="btn light-blue inverse">
+                <i class="icon-edit"></i> {{ "<?=$view['translator']->trans('Save')?>" }}
+            </button> 
+            <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" class="btn red">
+                <i class="icon-remove"></i> {{ "<?=$view['translator']->trans('Cancel')?>" }}
+            </a>
+        </form>
     </div>
 </div>

@@ -245,4 +245,16 @@ class DoctrineCrudGenerator extends BaseGenerator
 
         return $methods;
     }
+
+    /**
+     * Returns an array of record actions to generate (edit, show).
+     *
+     * @return array
+     */
+    protected function getRecordActions()
+    {
+        return array_filter($this->actions, function($item) {
+            return in_array($item, array('show', 'edit', 'delete'));
+        });
+    }
 }

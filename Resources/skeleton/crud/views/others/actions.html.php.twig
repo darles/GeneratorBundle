@@ -1,9 +1,30 @@
-<ul>
-    {%- for action in record_actions %}
-    <li>
-        <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_" ~ action ~ "', array('id' => $entity->getId())) ?>" }}" class="btn">
-            {{ "<?=$view['translator']->trans('" ~ action ~ "')?>" }}
-        </a>
-    </li>
-    {%- endfor %}
-</ul>
+{%- for action in record_actions %}
+    {% set actionIcon %}
+        <i class="icon-eye-open"></i>
+    {% endset %}
+    {% set actionClass = 'btn btn-mini dark-blue' %}
+    {% set title = "<?=$view['translator']->trans('" ~ action ~ "')?>" %}
+    {% set url = "<?= $view['router']->generate('" ~ route_name_prefix ~ "_" ~ action ~ "', array('id' => $entity->getId())) ?>" %}
+
+    {% if action == 'edit' %}
+        {% set actionIcon %}
+            <i class="icon-pencil"></i>
+        {% endset %}
+
+        {% set actionClass %}
+            btn btn-mini light-blue inverse
+        {% endset %}
+    {% elseif action == 'delete' %}
+        {% set actionIcon %}
+            <i class="icon-remove"></i>
+        {% endset %}
+
+        {% set actionClass %}
+            btn btn-mini red
+        {% endset %}
+    {% endif %}
+
+    <a href="{{ url }}" title="{{ title }}" class="{{ actionClass }}">
+        {{ actionIcon }}
+    </a> 
+{%- endfor %}

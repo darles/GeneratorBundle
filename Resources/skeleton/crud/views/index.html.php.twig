@@ -1,43 +1,52 @@
 {{ "<? $view->extend('::base.html.php'); ?>" }}
 
-{{ "<?php $view['slots']->start('header_row') ?>" }}
-    <div class="span5">
-        <h2>{{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }} {{ "<?=$view['translator']->trans('Listing')?>" }}</h2>
-    </div>
-    <nav class="span4">
-        {% if 'new' in actions %}
-            <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_new') ?>" }}" class="btn btn-small pull-right">
-                {{ "<?=$view['translator']->trans('Create new')?>" }}
-            </a>
-        {% endif %}
-    </nav>
-{{ "<?php $view['slots']->stop('header_row') ?>" }}
+{{ "<? $view['slots']->start('breadcrumb') ?>" }}
+    <li>
+        <a class="crumb active" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
+            {{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }}
+        </a>
+    </li>
+{{ "<? $view['slots']->stop('breadcrumb') ?>" }}
 
-<article>
+{{ "<? $view['slots']->start('box_header') ?>" }}
+    <i class="icon-th-list"></i>
+    {{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }}
+{{ "<? $view['slots']->stop('box_header') ?>" }}
 
-    {{ '<? foreach ($entities as $entity):?>' }}
-    <div class="box box-row">
-        <div class="row-fluid info">
-            <div class="span5 offset1">
-                <b>{{ '<?=(string)$entity?>' }}</b>
-            </div>
-            <div class="span2 txt-light">
-            </div>
-            <div class="span4 status">
+{{ "<? $view['slots']->start('box_buttons') ?>" }}
+    {% if 'new' in actions %}
+    <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_new') ?>" }}" class="btn btn-mini">
+        <i class="icon-file"></i> {{ "<?=$view['translator']->trans('Create new')?>" }}
+    </a>
+    {% endif %}
+{{ "<? $view['slots']->stop('box_buttons') ?>" }}
+
+<table class="table table-bordered table-striped"> 
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        {{ '<? foreach ($entities as $entity):?>' }}
+        <tr>
+            <td>
+                <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_edit', array('id' => $entity->getId())) ?>" }}">
+                    {{ '<?=(string)$entity?>' }}
+                </a>
+            </td>
+            <td style="width: 20%"> 
                 {%- include "views/others/actions.html.php.twig" %}
-            </div>
-        </div>
-    </div>
-    {{ '<? endforeach;?>' }}
-
-    {{ '<? if (empty($entities)): ?>' }}
-        <div class="box box-row">
-            <div class="row-fluid">
-                <div class="content">
-                    <p>{{ "<?=$view['translator']->trans('No entries')?>" }}</p>
-                </div>
-            </div>
-        </div>
-    {{ '<? endif;?>' }}
-
-</article>
+            </td>
+        </tr>    
+        {{ '<? endforeach;?>' }}
+        {{ '<? if (empty($entities)): ?>' }}
+        <tr>
+            <td colspan="3">
+                {{ "<?=$view['translator']->trans('No entries')?>" }}
+            </td>
+        </tr>
+        {{ '<? endif;?>' }}
+    </tbody>
+</table>
