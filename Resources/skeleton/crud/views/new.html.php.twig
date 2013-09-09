@@ -10,30 +10,28 @@
     </nav>
 {{ "<?php $view['slots']->stop('header_row') ?>" }}
 
-{{ "<?php $view['slots']->start('body') ?>" }}
-    <div class="box">
-        <div class="row-fluid">
-            <div class="content form-horizontal">
+<div class="box">
+    <div class="row-fluid">
+        <div class="content form-horizontal">
 
-                <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_create', array('id' => $entity->getId())) ?>" }}" method="post" {{ "<?= $view['form']->enctype($form) ?>" }}>
-                    <div class="content dark">
-                        <fieldset>
-                            <legend><b>1.</b> {{ "<?=$view['translator']->trans('General information')?>" }}</legend>
-                            {{ "<?= $view['form']->widget($form) ?>" }}
-                        </fieldset>
+            <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_create', array('id' => $entity->getId())) ?>" }}" method="post" {{ "<?= $view['form']->enctype($form) ?>" }}>
+                <div class="content dark">
+                    <fieldset>
+                        <legend><b>1.</b> {{ "<?=$view['translator']->trans('General information')?>" }}</legend>
+                        {{ "<?= $view['form']->widget($form) ?>" }}
+                    </fieldset>
+                </div>
+
+                <div class="content">
+                    <div class="row-fluid">
+                        <button type="submit" class="btn btn-large">{{ "<?=$view['translator']->trans('Create')?>" }}</button> 
+                        <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
+                            {{ "<?=$view['translator']->trans('Cancel')?>" }}
+                        </a>
                     </div>
+                </div>
+            </form>
 
-                    <div class="content">
-                        <div class="row-fluid">
-                            <button type="submit" class="btn btn-large">{{ "<?=$view['translator']->trans('Create')?>" }}</button> 
-                            <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
-                                {{ "<?=$view['translator']->trans('Cancel')?>" }}
-                            </a>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
         </div>
     </div>
-{{ "<?php $view['slots']->stop('body') ?>" }}
+</div>

@@ -13,33 +13,31 @@
     </nav>
 {{ "<?php $view['slots']->stop('header_row') ?>" }}
 
-{{ "<?php $view['slots']->start('body') ?>" }}
-    <article>
+<article>
 
-        {{ '<? foreach ($entities as $entity):?>' }}
+    {{ '<? foreach ($entities as $entity):?>' }}
+    <div class="box box-row">
+        <div class="row-fluid info">
+            <div class="span5 offset1">
+                <b>{{ '<?=(string)$entity?>' }}</b>
+            </div>
+            <div class="span2 txt-light">
+            </div>
+            <div class="span4 status">
+                {%- include "views/others/actions.html.php.twig" %}
+            </div>
+        </div>
+    </div>
+    {{ '<? endforeach;?>' }}
+
+    {{ '<? if (empty($entities)): ?>' }}
         <div class="box box-row">
-            <div class="row-fluid info">
-                <div class="span5 offset1">
-                    <b>{{ '<?=(string)$entity?>' }}</b>
-                </div>
-                <div class="span2 txt-light">
-                </div>
-                <div class="span4 status">
-                    {%- include "views/others/actions.html.php.twig" %}
+            <div class="row-fluid">
+                <div class="content">
+                    <p>{{ "<?=$view['translator']->trans('No entries')?>" }}</p>
                 </div>
             </div>
         </div>
-        {{ '<? endforeach;?>' }}
+    {{ '<? endif;?>' }}
 
-        {{ '<? if (empty($entities)): ?>' }}
-            <div class="box box-row">
-                <div class="row-fluid">
-                    <div class="content">
-                        <p>{{ "<?=$view['translator']->trans('No entries')?>" }}</p>
-                    </div>
-                </div>
-            </div>
-        {{ '<? endif;?>' }}
-
-    </article>
-{{ "<?php $view['slots']->stop('body') ?>" }}
+</article>

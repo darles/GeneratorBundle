@@ -10,33 +10,31 @@
     </nav>
 {{ "<?php $view['slots']->stop('header_row') ?>" }}
 
-{{ "<?php $view['slots']->start('body') ?>" }}
-    <div class="box">
-        <div class="row-fluid">
-            <div class="content">
-                <table>
-                    <tbody>
-                        {%- for field, metadata in fields %}
+<div class="box">
+    <div class="row-fluid">
+        <div class="content">
+            <table>
+                <tbody>
+                    {%- for field, metadata in fields %}
 
-                        <tr>
-                            <th>{{ field|capitalize }}</th>
+                    <tr>
+                        <th>{{ field|capitalize }}</th>
 
-                        {%- if metadata.type in ['date', 'datetime'] %}
+                    {%- if metadata.type in ['date', 'datetime'] %}
 
-                            <td>{{ '<?=(string)$entity->get' ~ field|replace({'_': ''}) ~ '()?>' }}</td>
+                        <td>{{ '<?=(string)$entity->get' ~ field|replace({'_': ''}) ~ '()?>' }}</td>
 
-                        {%- else %}
+                    {%- else %}
 
-                            <td>{{ '<?=$entity->get' ~ field|replace({'_': ''}) ~ '()?>' }}</td>
+                        <td>{{ '<?=$entity->get' ~ field|replace({'_': ''}) ~ '()?>' }}</td>
 
-                        {%- endif %}
+                    {%- endif %}
 
-                        </tr>
+                    </tr>
 
-                    {%- endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {%- endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
-{{ "<?php $view['slots']->stop('body') ?>" }}
+</div>
