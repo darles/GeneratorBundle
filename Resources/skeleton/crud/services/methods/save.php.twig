@@ -1,5 +1,12 @@
 
+    /**
+     * Save all persisted changes
+     *
+     * @return bool
+     */
     public function save()
     {
         $this->em->flush();
+
+        return true;
     }

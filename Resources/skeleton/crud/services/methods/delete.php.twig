@@ -1,11 +1,13 @@
-    
-    public function delete($param)
-    {
-        if (is_int($param)) {
-            $entity = $this->get($param);
-        } else {
-            $entity = $param;
-        }
 
+    /**
+     * Delete entity
+     *
+     * @param {{ entity }} $entity
+     * @return bool
+     */    
+    public function delete({{ entity}} $entity)
+    {
         $this->em->remove($entity);
+
+        return true;
     }

@@ -1,4 +1,10 @@
 
+    /**
+     * Get entry by id
+     *
+     * @param int $id
+     * @return {{ entity }}
+     */
     public function get($id)
     {
         return $this->repo->find($id);

@@ -1,5 +1,13 @@
 
+    /**
+     * Persist updated entity state
+     *
+     * @param {{ entity }} $entity
+     * @return bool
+     */
     public function update({{ entity }} $entity)
     {
         $this->em->persist($entity);
+
+        return true;
     }
