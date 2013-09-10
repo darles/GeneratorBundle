@@ -1,29 +1,55 @@
 {{ "<? $view->extend('::base.html.php'); ?>" }}
 
+{{ "<? $view['slots']->start('breadcrumb') ?>" }}
+    <li>
+        <a class="crumb" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
+            {{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }}
+        </a>
+        <span class="divider">/</span>
+    </li>
+    <li>
+        <a class="crumb" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_show', array('id' => $entity->getId())) ?>" }}">
+            {{ "<?=$entity?>" }}
+        </a>
+        <span class="divider">/</span>
+    </li>
+    <li>
+        <a class="crumb active" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_show', array('id' => $entity->getId())) ?>" }}">
+            Show
+        </a>
+    </li>
+{{ "<? $view['slots']->stop('breadcrumb') ?>" }}
+
 {{ "<?php $view['slots']->start('box_buttons') ?>" }}
     {% set hide_edit, hide_delete = false, false %}
     {% include 'views/others/record_actions.html.php.twig' %}
 {{ "<?php $view['slots']->stop('box_buttons') ?>" }}
 
-<table class="table no-border">
-    <tbody>
-        {%- for field, metadata in fields %}
+<div class="padded">
+    <div class="section-title">
+        General information
+    </div>
 
-        <tr>
-            <th>{{ field|capitalize }}</th>
+    <table class="table no-border">
+        <tbody>
+            {%- for field, metadata in fields %}
 
-        {%- if metadata.type in ['date', 'datetime'] %}
+            <tr>
+                <th>{{ field|capitalize }}</th>
 
-            <td>{{ '<?=(string)$entity->get' ~ field|replace({'_': ''}) ~ '()?>' }}</td>
+            {%- if metadata.type in ['date', 'datetime'] %}
 
-        {%- else %}
+                <td>{{ '<?=(string)$entity->get' ~ field|replace({'_': ''}) ~ '()?>' }}</td>
 
-            <td>{{ '<?=$entity->get' ~ field|replace({'_': ''}) ~ '()?>' }}</td>
+            {%- else %}
 
-        {%- endif %}
+                <td>{{ '<?=$entity->get' ~ field|replace({'_': ''}) ~ '()?>' }}</td>
 
-        </tr>
+            {%- endif %}
 
-    {%- endfor %}
-    </tbody>
-</table>
+            </tr>
+
+        {%- endfor %}
+        </tbody>
+    </table>
+</div>

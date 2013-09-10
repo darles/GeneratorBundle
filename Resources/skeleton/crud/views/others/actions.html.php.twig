@@ -2,29 +2,21 @@
     {% set actionIcon %}
         <i class="icon-eye-open"></i>
     {% endset %}
+    {% set dataAttr = '' %}
     {% set actionClass = 'btn btn-mini dark-blue' %}
     {% set title = "<?=$view['translator']->trans('" ~ action ~ "')?>" %}
     {% set url = "<?= $view['router']->generate('" ~ route_name_prefix ~ "_" ~ action ~ "', array('id' => $entity->getId())) ?>" %}
 
     {% if action == 'edit' %}
-        {% set actionIcon %}
-            <i class="icon-pencil"></i>
-        {% endset %}
-
-        {% set actionClass %}
-            btn btn-mini light-blue inverse
-        {% endset %}
+        {%- set actionIcon %}<i class="icon-pencil"></i>{%- endset %}
+        {%- set actionClass %}btn btn-mini light-blue inverse{%- endset %}
     {% elseif action == 'delete' %}
-        {% set actionIcon %}
-            <i class="icon-remove"></i>
-        {% endset %}
-
-        {% set actionClass %}
-            btn btn-mini red
-        {% endset %}
+        {%- set actionIcon %}<i class="icon-remove"></i>{%- endset %}
+        {%- set actionClass %}btn btn-mini red{%- endset %}
+        {%- set dataAttr %}data-bind="confirm"{%- endset %}
     {% endif %}
 
-    <a href="{{ url }}" title="{{ title }}" class="{{ actionClass }}">
+    <a href="{{ url }}" title="{{ title }}" class="{{ actionClass }}" {{ dataAttr }}>
         {{ actionIcon }}
     </a> 
 {%- endfor %}

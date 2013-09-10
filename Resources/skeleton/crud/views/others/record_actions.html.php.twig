@@ -9,7 +9,7 @@
     </a>
 {% endif %}
 {% if ('delete' in actions) and (not hide_delete) %}
-    <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_delete', array('id' => $entity->getId())) ?>" }}" class="btn btn-mini red" onclick="return confirm('{{ "<?=$view['translator']->trans('Confirm delete')?>" }}">
+    <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_delete', array('id' => $entity->getId())) ?>" }}" class="btn btn-mini red" data-bind="confirm">
         <i class="icon-remove"></i>
         {{ "<?=$view['translator']->trans('Delete')?>" }}
     </a>

@@ -32,15 +32,20 @@
     </div>
 
     <div class="vpadded">
-        <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_update', array('id' => $entity->getId())) ?>" }}" method="post" {{ "<?= $view['form']->enctype($form) ?>" }}>
+        <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_update', array('id' => $entity->getId())) ?>" }}" method="post" class="form-horizontal" {{ "<?= $view['form']->enctype($form) ?>" }}>
             {{ "<?= $view['form']->widget($form) ?>" }}
 
-            <button type="submit" class="btn light-blue inverse">
-                <i class="icon-edit"></i> {{ "<?=$view['translator']->trans('Save')?>" }}
-            </button> 
-            <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" class="btn red">
-                <i class="icon-remove"></i> {{ "<?=$view['translator']->trans('Cancel')?>" }}
-            </a>
+            <div class="control-group">
+                <label class="control-label">&nbsp;</label>
+                <div class="controls">
+                    <button type="submit" class="btn medium-blue">
+                        <i class="icon-edit"></i> {{ "<?=$view['translator']->trans('Save')?>" }}
+                    </button> 
+                    <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" class="btn red">
+                        <i class="icon-remove"></i> {{ "<?=$view['translator']->trans('Cancel')?>" }}
+                    </a>
+                </div>
+            </div>
         </form>
     </div>
 </div>

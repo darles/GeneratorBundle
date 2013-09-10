@@ -1,5 +1,19 @@
 {{ "<? $view->extend('::base.html.php'); ?>" }}
 
+{{ "<? $view['slots']->start('breadcrumb') ?>" }}
+    <li>
+        <a class="crumb" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
+            {{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }}
+        </a>
+        <span class="divider">/</span>
+    </li>
+    <li>
+        <a class="crumb active" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_new', array('id' => $entity->getId())) ?>" }}">
+            Create new
+        </a>
+    </li>
+{{ "<? $view['slots']->stop('breadcrumb') ?>" }}
+
 {{ "<?php $view['slots']->start('header_row') ?>" }}
     <div class="span5">
         <h2>{{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }} {{ "<?=$view['translator']->trans('Creation')?>" }}</h2>
@@ -16,15 +30,20 @@
     </div>
 
     <div class="vpadded">
-        <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_create', array('id' => $entity->getId())) ?>" }}" method="post" {{ "<?= $view['form']->enctype($form) ?>" }}>
+        <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_create', array('id' => $entity->getId())) ?>" }}" method="post" {{ "<?= $view['form']->enctype($form) ?>" }} class="form-horizontal">
             {{ "<?= $view['form']->widget($form) ?>" }}
 
-            <button type="submit" class="btn light-blue inverse">
-                <i class="icon-edit"></i> {{ "<?=$view['translator']->trans('Save')?>" }}
-            </button> 
-            <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" class="btn red">
-                <i class="icon-remove"></i> {{ "<?=$view['translator']->trans('Cancel')?>" }}
-            </a>
+            <div class="control-group">
+                <label class="control-label">&nbsp;</label>
+                <div class="controls">
+                    <button type="submit" class="btn medium-blue">
+                        <i class="icon-edit"></i> {{ "<?=$view['translator']->trans('Save')?>" }}
+                    </button> 
+                    <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" class="btn red">
+                        <i class="icon-remove"></i> {{ "<?=$view['translator']->trans('Cancel')?>" }}
+                    </a>
+                </div>
+            </div>
         </form>
     </div>
 </div>
