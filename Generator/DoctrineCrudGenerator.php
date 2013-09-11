@@ -12,10 +12,20 @@ class DoctrineCrudGenerator extends BaseGenerator
 
     public function generate(BundleInterface $bundle, $entity, ClassMetadataInfo $metadata, $format, $routePrefix, $needWriteActions, $forceOverwrite)
     {
-        parent::generate($bundle, $entity, $metadata, $format, $routePrefix, $needWriteActions, $forceOverwrite);
+        $routePrefix = $this->generateRoutePrefix($bundle, $routePrefix);
 
+        parent::generate($bundle, $entity, $metadata, $format, $routePrefix, $needWriteActions, $forceOverwrite);
         $this->generateServiceConfiguration();
         $this->generateServiceClass();
+    }
+
+    protected function generateRoutePrefix(BundleInterface $bundle, $routePrefix)
+    {
+        $ns = explode("\\", strtolower($bundle->getNamespace()));
+        $project = $ns[0];
+        $bundle = str_replace('bundle', '', $ns[1]);
+
+        return $project . '_' . $bundle . '.' . $routePrefix;
     }
 
     /**
