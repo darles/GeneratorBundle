@@ -1,0 +1,22 @@
+<?php
+/**
+ * IMPORTANT!
+ * This file is not in use.
+ * After generating crud just copy translations you're missing from here to messages.en.php
+ * and you can remove this file.
+ */
+return array(
+    // Global translations should be stored somewhere safely in one place
+    '{{ translation_global_prefix }}' => array(
+{% for key, value in translations_global %}
+        '{{ key}}' => '{{ value }}',
+{% endfor %}
+    ),
+
+    // {{ entity }} CRUD related translations
+    '{{ translation_prefix }}' => array(
+{% for key, value in translations %}
+        '{{ key}}' => '{{ value }}',
+{% endfor %}
+    ),
+);

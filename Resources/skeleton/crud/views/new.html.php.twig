@@ -3,7 +3,7 @@
 {{ "<? $view['slots']->start('breadcrumb') ?>" }}
     <li>
         <a class="crumb" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
-            <?=$view['translator']->trans('{{ translation_prefix }}name')?>
+            <?=$view['translator']->trans('{{ translation_prefix }}_name')?>
         </a>
         <span class="divider">/</span>
     </li>
@@ -16,7 +16,7 @@
 
 {{ "<? $view['slots']->start('box_header') ?>" }}
     <i class="icon-th-list"></i>
-    <?=$view['translator']->trans('{{ translation_prefix }}name')?>
+    <?=$view['translator']->trans('{{ translation_prefix }}_name')?>
 {{ "<? $view['slots']->stop('box_header') ?>" }}
 
 {{ "<?php $view['slots']->start('box_buttons') ?>" }}

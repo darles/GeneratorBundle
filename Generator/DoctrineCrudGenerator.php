@@ -22,8 +22,12 @@ class DoctrineCrudGenerator extends BaseGenerator
         $this->generateServiceConfiguration();
         $this->generateServiceClass();
         $this->generateServiceTestClass();
+        $this->generateDictionary();
     }
 
+    /** 
+     * Creates route prefix
+     */
     protected function generateRoutePrefix(BundleInterface $bundle, $routePrefix)
     {
         $ns = explode("\\", strtolower($bundle->getNamespace()));
@@ -31,6 +35,70 @@ class DoctrineCrudGenerator extends BaseGenerator
         $bundle = str_replace('bundle', '', $ns[1]);
 
         return $project . '_' . $bundle . '.' . $routePrefix;
+    }
+
+    /**
+     * List of translations used in generated crud
+     */
+    protected function getTranslations()
+    {
+        $data = array();
+        $data['_name'] = $this->entity;
+
+        foreach ($this->metadata->fieldMappings as $field => $metadata) {
+            $data[$field] = ucfirst($field);
+        }
+
+        if (isset($data['id'])) {
+            $data['id'] = 'ID';
+        }
+
+        return $data;
+    }
+
+    /**
+     * List of global translations used in generated crud
+     */
+    protected function getGlobalTranslations()
+    {
+        return array(
+            'edit' => 'Edit',
+            'name' => 'Name',
+            'actions' => 'Actions',
+            'create_new' => 'Create new',
+            'no_entries' => 'No entries',
+            'general_information' => 'General information',
+            'save' => 'Save',
+            'cancel' => 'Cancel',
+            'back' => 'Back',
+            'delete' => 'Delete',
+            'show' => 'Show',
+        );
+    }
+
+    /**
+     * Generates translations messages dictionary file
+     *
+     */
+    protected function generateDictionary()
+    {
+        $translations = $this->getTranslations();
+        $translationsGlobal = $this->getGlobalTranslations();
+        
+        $name = strtolower(str_replace('\\', '_', $this->entity));
+        $target = sprintf(
+            '%s/Resources/translations/%s.messages.en.php',
+            $this->bundle->getPath(),
+            $name
+        );
+
+        $this->renderFile('crud/messages.php.twig', $target, array(
+            'translation_prefix' => substr($this->translationPrefix, 0, -1),
+            'translation_global_prefix' => substr($this->translationGlobalPrefix, 0, -1),
+            'translations' => $translations,
+            'translations_global' => $translationsGlobal,
+            'entity' => $this->entity,
+        ));
     }
 
     /**
