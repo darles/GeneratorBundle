@@ -9,10 +9,14 @@ use Sensio\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator as BaseGenerat
 class DoctrineCrudGenerator extends BaseGenerator
 {
     protected $viewFormat = 'php';
+    protected $translationPrefix = '';
+    protected $translationCorePrefix = '';
 
     public function generate(BundleInterface $bundle, $entity, ClassMetadataInfo $metadata, $format, $routePrefix, $needWriteActions, $forceOverwrite)
     {
         $routePrefix = $this->generateRoutePrefix($bundle, $routePrefix);
+        $this->translationPrefix = $routePrefix . '.';
+        $this->translationGlobalPrefix = 'global.';
 
         parent::generate($bundle, $entity, $metadata, $format, $routePrefix, $needWriteActions, $forceOverwrite);
         $this->generateServiceConfiguration();
@@ -184,6 +188,8 @@ class DoctrineCrudGenerator extends BaseGenerator
             'record_actions'    => $this->getRecordActions(),
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
+            'translation_prefix' => $this->translationPrefix,
+            'translation_global_prefix' => $this->translationGlobalPrefix,
         ));
     }
 
@@ -200,6 +206,8 @@ class DoctrineCrudGenerator extends BaseGenerator
             'actions'           => $this->actions,
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
+            'translation_prefix' => $this->translationPrefix,
+            'translation_global_prefix' => $this->translationGlobalPrefix,
         ));
     }
 
@@ -215,6 +223,8 @@ class DoctrineCrudGenerator extends BaseGenerator
             'route_name_prefix' => $this->routeNamePrefix,
             'entity'            => $this->entity,
             'actions'           => $this->actions,
+            'translation_prefix' => $this->translationPrefix,
+            'translation_global_prefix' => $this->translationGlobalPrefix,
         ));
     }
 
@@ -230,6 +240,8 @@ class DoctrineCrudGenerator extends BaseGenerator
             'route_name_prefix' => $this->routeNamePrefix,
             'entity'            => $this->entity,
             'actions'           => $this->actions,
+            'translation_prefix' => $this->translationPrefix,
+            'translation_global_prefix' => $this->translationGlobalPrefix,
         ));
     }
 

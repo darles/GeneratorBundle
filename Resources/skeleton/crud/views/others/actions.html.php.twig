@@ -4,7 +4,7 @@
     {% endset %}
     {% set dataAttr = '' %}
     {% set actionClass = 'btn btn-mini dark-blue' %}
-    {% set title = "<?=$view['translator']->trans('" ~ action ~ "')?>" %}
+    {% set title = "<?=$view['translator']->trans('" ~ translation_global_prefix ~ action ~ "')?>" %}
     {% set url = "<?= $view['router']->generate('" ~ route_name_prefix ~ "_" ~ action ~ "', array('id' => $entity->getId())) ?>" %}
 
     {% if action == 'edit' %}

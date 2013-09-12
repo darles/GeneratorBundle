@@ -3,7 +3,7 @@
 {{ "<? $view['slots']->start('breadcrumb') ?>" }}
     <li>
         <a class="crumb" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
-            {{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }}
+            <?=$view['translator']->trans('{{ translation_prefix }}name')?>
         </a>
         <span class="divider">/</span>
     </li>
@@ -15,10 +15,15 @@
     </li>
     <li>
         <a class="crumb active" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_edit', array('id' => $entity->getId())) ?>" }}">
-            Edit
+            <?=$view['translator']->trans('{{ translation_global_prefix }}edit')?>
         </a>
     </li>
 {{ "<? $view['slots']->stop('breadcrumb') ?>" }}
+
+{{ "<? $view['slots']->start('box_header') ?>" }}
+    <i class="icon-th-list"></i>
+    <?=$view['translator']->trans('{{ translation_prefix }}name')?>
+{{ "<? $view['slots']->stop('box_header') ?>" }}
 
 {{ "<?php $view['slots']->start('box_buttons') ?>" }}
     {% set hide_edit, hide_delete = true, false %}
@@ -27,7 +32,7 @@
 
 <div class="padded">
     <div class="section-title">
-        General information
+        <?=$view['translator']->trans('{{ translation_global_prefix }}general_information')?>
     </div>
 
     <div class="vpadded">
@@ -38,11 +43,11 @@
                 <label class="control-label">&nbsp;</label>
                 <div class="controls">
                     <button type="submit" class="btn medium-blue">
-                        <i class="icon-edit"></i> {{ "<?=$view['translator']->trans('Save')?>" }}
+                        <i class="icon-edit"></i> <?=$view['translator']->trans('{{ translation_global_prefix }}save')?>
                     </button>
                     &nbsp;
                     <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" class="btn red">
-                        <i class="icon-remove"></i> {{ "<?=$view['translator']->trans('Cancel')?>" }}
+                        <i class="icon-remove"></i> <?=$view['translator']->trans('{{ translation_global_prefix }}cancel')?>
                     </a>
                 </div>
             </div>

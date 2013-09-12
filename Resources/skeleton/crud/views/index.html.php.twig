@@ -3,20 +3,20 @@
 {{ "<? $view['slots']->start('breadcrumb') ?>" }}
     <li>
         <a class="crumb active" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
-            {{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }}
+            <?=$view['translator']->trans('{{ translation_prefix }}name')?>
         </a>
     </li>
 {{ "<? $view['slots']->stop('breadcrumb') ?>" }}
 
 {{ "<? $view['slots']->start('box_header') ?>" }}
     <i class="icon-th-list"></i>
-    {{ "<?=$view['translator']->trans('" ~ entity ~ "')?>" }}
+    <?=$view['translator']->trans('{{ translation_prefix }}name')?>
 {{ "<? $view['slots']->stop('box_header') ?>" }}
 
 {{ "<? $view['slots']->start('box_buttons') ?>" }}
     {% if 'new' in actions %}
     <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_new') ?>" }}" class="btn btn-mini">
-        <i class="icon-file"></i> {{ "<?=$view['translator']->trans('Create new')?>" }}
+        <i class="icon-file"></i> <?=$view['translator']->trans('{{ translation_global_prefix }}create_new')?>
     </a>
     {% endif %}
 {{ "<? $view['slots']->stop('box_buttons') ?>" }}
@@ -24,8 +24,8 @@
 <table class="table table-bordered table-striped"> 
     <thead>
         <tr>
-            <td>Name</td>
-            <td>Actions</td>
+            <td><?=$view['translator']->trans('{{ translation_global_prefix }}name')?></td>
+            <td><?=$view['translator']->trans('{{ translation_global_prefix }}actions')?></td>
         </tr>
     </thead>
     <tbody>
@@ -44,7 +44,7 @@
         {{ '<? if (empty($entities)): ?>' }}
         <tr>
             <td colspan="3">
-                {{ "<?=$view['translator']->trans('No entries')?>" }}
+                <?=$view['translator']->trans('{{ translation_global_prefix }}no_entries')?>
             </td>
         </tr>
         {{ '<? endif;?>' }}
