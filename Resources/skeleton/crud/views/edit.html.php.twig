@@ -1,6 +1,5 @@
 {{ "<? $view->extend('::base.html.php'); ?>" }}
 
-
 {{ "<? $view['slots']->start('breadcrumb') ?>" }}
     <li>
         <a class="crumb" href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}">
@@ -40,7 +39,8 @@
                 <div class="controls">
                     <button type="submit" class="btn medium-blue">
                         <i class="icon-edit"></i> {{ "<?=$view['translator']->trans('Save')?>" }}
-                    </button> 
+                    </button>
+                    &nbsp;
                     <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" class="btn red">
                         <i class="icon-remove"></i> {{ "<?=$view['translator']->trans('Cancel')?>" }}
                     </a>

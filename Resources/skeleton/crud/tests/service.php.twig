@@ -2,7 +2,6 @@
 
 namespace {{ namespace }}\Tests\Service;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use {{ namespace }}\Service\{{ entity }}Service;
@@ -42,7 +41,6 @@ class {{ entity }}ServiceTest extends TestCase
 
         $this->obj = new {{ entity }}Service($this->em, $this->repo);
     }
-
 {% for method in methods %}
 
     {%- include 'tests/methods/' ~ method ~ '.php.twig' %}

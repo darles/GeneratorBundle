@@ -1,16 +1,13 @@
     <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" class="btn btn-mini">
-        <i class="icon-chevron-left"></i> 
-        {{ "<?=$view['translator']->trans('Back')?>" }}
+        <i class="icon-chevron-left"></i> {{ "<?=$view['translator']->trans('Back')?>" }}
     </a>
 {% if ('edit' in actions) and (not hide_edit) %}
     <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_edit', array('id' => $entity->getId())) ?>" }}" class="btn btn-mini light-blue inverse">
-        <i class="icon-pencil"></i> 
-        {{ "<?=$view['translator']->trans('Edit')?>" }}
+        <i class="icon-pencil"></i> {{ "<?=$view['translator']->trans('Edit')?>" }}
     </a>
 {% endif %}
 {% if ('delete' in actions) and (not hide_delete) %}
     <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_delete', array('id' => $entity->getId())) ?>" }}" class="btn btn-mini red" data-bind="confirm">
-        <i class="icon-remove"></i>
-        {{ "<?=$view['translator']->trans('Delete')?>" }}
+        <i class="icon-remove"></i> {{ "<?=$view['translator']->trans('Delete')?>" }}
     </a>
 {% endif %}
