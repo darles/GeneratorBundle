@@ -1,0 +1,52 @@
+<?php
+
+namespace {{ namespace }}\Tests\Service;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use {{ namespace }}\Service\{{ entity }}Service;
+use Estina\Tests\TestCase;
+
+class {{ entity }}ServiceTest extends TestCase
+{
+    /**
+     * Testable instance
+     * @var {{ entity }}Service
+     */
+    private $obj;
+
+    /**
+     * Mock object
+     * @var Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
+     * Mock object
+     * @var Doctrine\ORM\EntityRepository
+     */
+    private $repo;
+
+    /**
+     * Mock object
+     * @var {{ namespace }}\Entity\{{ entity }};
+     */
+    private $entity;
+
+    public function setUp()
+    {
+        $this->em = $this->getPlainMock('Doctrine\ORM\EntityManager');
+        $this->repo = $this->getPlainMock('Doctrine\ORM\EntityRepository');
+        $this->entity = $this->getPlainMock('{{ namespace }}\Entity\{{ entity }}');
+
+        $this->obj = new {{ entity }}Service($this->em, $this->repo);
+    }
+
+{% for method in methods %}
+
+    {%- include 'tests/methods/' ~ method ~ '.php.twig' %}
+
+{% endfor -%}
+
+}

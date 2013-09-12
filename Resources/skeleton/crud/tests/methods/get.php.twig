@@ -1,0 +1,14 @@
+
+    /**
+     * Test entity get method
+     */
+    public function testGet()
+    {
+        $this->repo->expects($this->once())
+            ->method('find')
+            ->with($this->equalTo(1))
+            ->will($this->returnValue($this->entity));
+
+        $res = $this->obj->get(1);
+        $this->assertEquals($this->entity, $res);
+    }

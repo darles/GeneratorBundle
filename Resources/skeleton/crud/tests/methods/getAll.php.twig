@@ -1,0 +1,13 @@
+
+    /**
+     * Test get all method, which returns array of entities
+     */
+    public function testGetAll()
+    {
+        $this->repo->expects($this->once())
+            ->method('findAll')
+            ->will($this->returnValue(array($this->entity)));
+
+        $res = $this->obj->getAll();
+        $this->assertContains($this->entity, $res);
+    }

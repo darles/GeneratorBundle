@@ -1,0 +1,14 @@
+
+    /**
+     * Test entity delete method
+     */
+    public function testDelete()
+    {
+        $this->em->expects($this->once())
+            ->method('remove')
+            ->with($this->equalTo($this->entity))
+            ->will($this->returnValue(true));
+
+        $res = $this->obj->delete($this->entity);
+        $this->assertTrue(true);
+    }

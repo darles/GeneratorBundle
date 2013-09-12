@@ -1,0 +1,14 @@
+
+    /**
+     * Test entity create method
+     */
+    public function testCreate()
+    {
+        $this->em->expects($this->once())
+            ->method('persist')
+            ->with($this->equalTo($this->entity))
+            ->will($this->returnValue(true));
+
+        $res = $this->obj->create($this->entity);
+        $this->assertTrue(true);
+    }

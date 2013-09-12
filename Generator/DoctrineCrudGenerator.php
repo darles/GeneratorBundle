@@ -17,6 +17,7 @@ class DoctrineCrudGenerator extends BaseGenerator
         parent::generate($bundle, $entity, $metadata, $format, $routePrefix, $needWriteActions, $forceOverwrite);
         $this->generateServiceConfiguration();
         $this->generateServiceClass();
+        $this->generateServiceTestClass();
     }
 
     protected function generateRoutePrefix(BundleInterface $bundle, $routePrefix)
@@ -26,6 +27,35 @@ class DoctrineCrudGenerator extends BaseGenerator
         $bundle = str_replace('bundle', '', $ns[1]);
 
         return $project . '_' . $bundle . '.' . $routePrefix;
+    }
+
+    /**
+     * Generates the functional test class only.
+     *
+     */
+    protected function generateServiceTestClass()
+    {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+        $entityNamespace = implode('\\', $parts);
+
+        $dir    = $this->bundle->getPath() .'/Tests/Service';
+        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'ServiceTest.php';
+
+        $methods = $this->getServiceTestableMethods($this->actions);
+
+        $this->renderFile('crud/tests/service.php.twig', $target, array(
+            'route_prefix'      => $this->routePrefix,
+            'route_name_prefix' => $this->routeNamePrefix,
+            'entity'            => $this->entity,
+            'bundle'            => $this->bundle->getName(),
+            'entity_class'      => $entityClass,
+            'namespace'         => $this->bundle->getNamespace(),
+            'entity_namespace'  => $entityNamespace,
+            'actions'           => $this->actions,
+            'methods'           => $methods,
+            'form_type_name'    => strtolower(str_replace('\\', '_', $this->bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$entityClass.'Type'),
+        ));
     }
 
     /**
@@ -249,9 +279,24 @@ class DoctrineCrudGenerator extends BaseGenerator
             'save',
         );
 
-        foreach ($actions as $action) {
+        return $methods;
+    }
 
-        }
+    /**
+     * Ger service methods for unit testing
+     *
+     */
+    protected function getServiceTestableMethods($actions)
+    {
+        $methods = array(
+            'getNew',
+            'get',
+            'getAll',
+            'create',
+            'update',
+            'delete',
+            'save',
+        );
 
         return $methods;
     }

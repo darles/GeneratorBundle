@@ -1,0 +1,14 @@
+
+    /**
+     * Test update entity method
+     */
+    public function testUpdate()
+    {
+        $this->em->expects($this->once())
+            ->method('persist')
+            ->with($this->equalTo($this->entity))
+            ->will($this->returnValue(true));
+
+        $res = $this->obj->update($this->entity);
+        $this->assertTrue($res);
+    }

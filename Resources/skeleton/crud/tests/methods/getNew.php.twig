@@ -1,0 +1,9 @@
+
+    /**
+     * Test create new instance method
+     */
+    public function testGetNew()
+    {
+        $res = $this->obj->getNew();
+        $this->assertInstanceOf('{{ namespace }}\Entity\{{ entity }}', $res);
+    }

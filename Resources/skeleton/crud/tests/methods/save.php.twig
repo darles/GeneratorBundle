@@ -1,0 +1,13 @@
+
+    /**
+     * Test save all persisted changes method
+     */
+    public function testSave()
+    {
+        $this->em->expects($this->once())
+            ->method('flush')
+            ->will($this->returnValue(true));
+
+        $res = $this->obj->save();
+        $this->assertTrue($res);
+    }
