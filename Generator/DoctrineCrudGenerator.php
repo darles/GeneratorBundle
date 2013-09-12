@@ -286,11 +286,15 @@ class DoctrineCrudGenerator extends BaseGenerator
      */
     protected function generateNewView($dir)
     {
+        $fields = $this->metadata->fieldMappings;
+        unset($fields['id']);
+
         $this->renderFile('views/new.html.' . $this->viewFormat . '.twig', $dir.'/new.html.' . $this->viewFormat, array(
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
             'entity'            => $this->entity,
             'actions'           => $this->actions,
+            'fields'            => $fields,
             'translation_prefix' => $this->translationPrefix,
             'translation_global_prefix' => $this->translationGlobalPrefix,
         ));
@@ -303,11 +307,16 @@ class DoctrineCrudGenerator extends BaseGenerator
      */
     protected function generateEditView($dir)
     {
+        $fields = $this->metadata->fieldMappings;
+        unset($fields['id']);
+        
+
         $this->renderFile('views/edit.html.' . $this->viewFormat . '.twig', $dir.'/edit.html.' . $this->viewFormat, array(
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
             'entity'            => $this->entity,
             'actions'           => $this->actions,
+            'fields'            => $fields,
             'translation_prefix' => $this->translationPrefix,
             'translation_global_prefix' => $this->translationGlobalPrefix,
         ));

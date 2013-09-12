@@ -37,7 +37,12 @@
 
     <div class="vpadded">
         <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_update', array('id' => $entity->getId())) ?>" }}" method="post" class="form-horizontal" {{ "<?= $view['form']->enctype($form) ?>" }}>
-            {{ "<?= $view['form']->widget($form) ?>" }}
+            
+            {%- for field, metadata in fields %}
+            <?= $view['form']->row($form['{{ field }}'], array('label' => '{{ translation_prefix }}{{ field }}')) ?>
+            {%- endfor %}
+
+            <?= $view['form']->rest($form) ?>
 
             <div class="control-group">
                 <label class="control-label">&nbsp;</label>
