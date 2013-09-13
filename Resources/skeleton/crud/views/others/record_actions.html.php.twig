@@ -3,7 +3,7 @@
     </a>
 {% if ('edit' in actions) and (not hide_edit) %}
     <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_edit', array('id' => $entity->getId())) ?>" }}" class="btn btn-mini light-blue inverse">
-        <i class="icon-pencil"></i> <?=$view['translator']->trans('{{ translation_global_prefix }}create_new')?>
+        <i class="icon-pencil"></i> <?=$view['translator']->trans('{{ translation_global_prefix }}edit')?>
     </a>
 {% endif %}
 {% if ('delete' in actions) and (not hide_delete) %}
