@@ -37,13 +37,13 @@
 
     <table class="table no-border">
         <tbody>
-        {%- for field, metadata in fields %}
+        {%- for field, getter in getters %}
             <tr>
                 <th>
                     <?=$view['translator']->trans('{{ translation_prefix }}{{ field }}')?>
                 </th>
                 <td>
-                    {{ '<?=(string)$entity->get' ~ field|replace({'_': ''}) ~ '()?>' }}
+                    {{ '<?=(string)$entity->' ~ getter ~ '()?>' }}
                 </td>
             </tr>
         {%- endfor %}

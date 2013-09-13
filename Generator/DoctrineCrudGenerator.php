@@ -271,6 +271,7 @@ class DoctrineCrudGenerator extends BaseGenerator
         $this->renderFile('views/show.html.' . $this->viewFormat . '.twig', $dir.'/show.html.' . $this->viewFormat, array(
             'entity'            => $this->entity,
             'fields'            => $this->metadata->fieldMappings,
+            'getters'            => $this->getGetters(),
             'actions'           => $this->actions,
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
@@ -372,8 +373,9 @@ class DoctrineCrudGenerator extends BaseGenerator
     }
 
     /**
-     * Ger service methods for unit testing
+     * Get service methods for unit testing
      *
+     * @return array
      */
     protected function getServiceTestableMethods($actions)
     {
@@ -391,6 +393,37 @@ class DoctrineCrudGenerator extends BaseGenerator
     }
 
     /**
+     * Get getter methods for entity fields
+     *
+     * @return array
+     */
+    protected function getGetters()
+    {
+        $fields = $this->metadata->fieldMappings;
+        $return = array();
+
+        foreach ($fields as $field => $metadata) {
+            $return[$field] = $this->camelCase('get_' . $field, '_');
+        }
+
+        return $return;
+    }
+
+    /**
+     * Convert string to camel case which is splitted by $delimiter
+     *
+     * @var string $string
+     * @var string $delimiter
+     */ 
+    protected function camelCase($string, $delimiter)
+    {
+        $exp = explode($delimiter, $string);
+        $exp = array_map('ucfirst', $exp);
+
+        return lcfirst(implode('', $exp));
+    }
+
+    /**
      * Returns an array of record actions to generate (edit, show).
      *
      * @return array
@@ -401,4 +434,5 @@ class DoctrineCrudGenerator extends BaseGenerator
             return in_array($item, array('show', 'edit', 'delete'));
         });
     }
+
 }
