@@ -210,6 +210,31 @@ class DoctrineCrudGenerator extends BaseGenerator
         ));
     }
 
+    protected function generateTestClass()
+    {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+        $entityNamespace = implode('\\', $parts);
+        $fields = $this->metadata->fieldMappings;
+        unset($fields['id']);
+
+        $dir    = $this->bundle->getPath() .'/Tests/Controller';
+        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'ControllerTest.php';
+
+        $this->renderFile('crud/tests/test.php.twig', $target, array(
+            'route_prefix'      => $this->routePrefix,
+            'route_name_prefix' => $this->routeNamePrefix,
+            'entity'            => $this->entity,
+            'bundle'            => $this->bundle->getName(),
+            'entity_class'      => $entityClass,
+            'namespace'         => $this->bundle->getNamespace(),
+            'entity_namespace'  => $entityNamespace,
+            'actions'           => $this->actions,
+            'form_type_name'    => strtolower(str_replace('\\', '_', $this->bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$entityClass),
+            'fields'            => $fields,
+        ));
+    }
+
 
     /**
      * Generates the service class only.

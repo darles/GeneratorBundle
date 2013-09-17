@@ -1,0 +1,67 @@
+    
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->loginClient('user', 'password');
+    }
+
+    public function crudCompleteScenarioData()
+    {
+        return array(
+            array(
+                // @TODO change to whatever your entity's name field
+                '{{ form_type_name }}[name]',
+                array(
+                    {% for field, metadata in fields -%}
+                    '{{ form_type_name }}[{{ field }}]'  => '{{ field }} Value',
+                    {% endfor -%}
+                ),
+                array(
+                    {% for field, metadata in fields -%}
+                    '{{ form_type_name }}[{{ field }}]'  => '{{ field }} 123',
+                    {% endfor -%}
+                ),
+            )
+        );
+    }
+    
+    /**
+     * @dataProvider crudCompleteScenarioData
+     */
+    public function testCRUDCompleteScenario($nameField, $data, $updateData)
+    {
+        // Create a new entry in the database
+        $crawler = $this->client->request('GET', $this->router->generate('{{ route_name_prefix }}'));
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /setting/");
+        $crawler = $this->client->click($crawler->selectLink('Create new')->link());
+
+        // Fill in the form and submit it
+        $form = $crawler->selectButton('Save')->form($data);
+
+        $this->client->submit($form);
+        $crawler = $this->client->followRedirect();
+
+        // Check data in the listing view
+        $this->assertGreaterThan(0, $crawler->filter('td:contains("' . $data[$nameField] . '")')->count(), 'Missing element td:contains("' . $data[$nameField] . '")');
+
+        // Edit the entity
+        $crawler = $this->client->click($crawler->selectLink('Edit')->link());
+
+        $form = $crawler->selectButton('Save')->form($updateData);
+
+        $this->client->submit($form);
+        $crawler = $this->client->followRedirect();
+
+        // Check the element contains an attribute with value equals "Foo"
+        $this->assertGreaterThan(0, $crawler->filter('td:contains("' . $updateData[$nameField] . '")')->count(), 'Missing element containing "' . $updateData[$nameField] . '"');
+
+        // Delete the entity
+        $deleteLink = $crawler->filterXpath('//tr[./td/a[contains(text(), "' . $updateData[$nameField] . '")]][1]/td/a[@title="Delete"]')->link();
+        $this->client->click($deleteLink);
+        $crawler = $this->client->followRedirect();
+
+        // Check the entity has been delete on the list
+        $this->assertEquals(0, $crawler->filterXpath('//tr[./td/a[contains(text(), "' . $updateData[$nameField] . '")]]')->count());
+    }
