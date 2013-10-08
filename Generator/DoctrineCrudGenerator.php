@@ -25,7 +25,7 @@ class DoctrineCrudGenerator extends BaseGenerator
         $this->generateDictionary();
     }
 
-    /** 
+    /**
      * Creates route prefix
      */
     protected function generateRoutePrefix(BundleInterface $bundle, $routePrefix)
@@ -84,7 +84,7 @@ class DoctrineCrudGenerator extends BaseGenerator
     {
         $translations = $this->getTranslations();
         $translationsGlobal = $this->getGlobalTranslations();
-        
+
         $name = strtolower(str_replace('\\', '_', $this->entity));
         $target = sprintf(
             '%s/Resources/translations/%s.messages.en.php',
@@ -335,7 +335,6 @@ class DoctrineCrudGenerator extends BaseGenerator
     {
         $fields = $this->metadata->fieldMappings;
         unset($fields['id']);
-        
 
         $this->renderFile('views/edit.html.' . $this->viewFormat . '.twig', $dir.'/edit.html.' . $this->viewFormat, array(
             'route_prefix'      => $this->routePrefix,
@@ -370,7 +369,7 @@ class DoctrineCrudGenerator extends BaseGenerator
     protected function getFormServiceId()
     {
         return strtolower($this->getServiceIdPrefix() . '.form.' .  $this->entity);
-    }    
+    }
 
     protected function getFormTypeServiceId()
     {
@@ -439,7 +438,7 @@ class DoctrineCrudGenerator extends BaseGenerator
      *
      * @var string $string
      * @var string $delimiter
-     */ 
+     */
     protected function camelCase($string, $delimiter)
     {
         $exp = explode($delimiter, $string);

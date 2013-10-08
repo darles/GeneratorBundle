@@ -37,10 +37,10 @@
 
     <div class="vpadded">
         <form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_update', array('id' => $entity->getId())) ?>" }}" method="post" class="form-horizontal" {{ "<?= $view['form']->enctype($form) ?>" }}>
-            
-            {%- for field, metadata in fields %}
+
+{% for field, metadata in fields %}
             <?= $view['form']->row($form['{{ field }}'], array('label' => '{{ translation_prefix }}{{ field }}')) ?>
-            {%- endfor %}
+{% endfor %}
 
             <?= $view['form']->rest($form) ?>
 
