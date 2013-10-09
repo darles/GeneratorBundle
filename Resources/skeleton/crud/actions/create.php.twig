@@ -23,12 +23,7 @@
 
             $this->get('session')->getFlashBag()->add('success', 'Your changes were saved!');
 
-            {% if 'show' in actions -%}
-                return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $entity->getId())));
-            {%- else -%}
-                return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
-            {%- endif %}
-
+            return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
         }
 
 {% if 'annotation' == format %}
