@@ -7,6 +7,7 @@
      */
     public function update({{ entity }} $entity)
     {
+        $entity->setDateUpdated(new \DateTime('now'));
         $this->em->persist($entity);
 
         return true;

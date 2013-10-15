@@ -7,6 +7,8 @@
      */
     public function create({{ entity }} $entity)
     {
+        $entity->setDateCreated(new \DateTime('now'));
+        $entity->setDateUpdated(new \DateTime('now'));
         $this->em->persist($entity);
 
         return true;

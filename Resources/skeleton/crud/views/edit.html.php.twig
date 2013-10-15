@@ -31,6 +31,11 @@
 {{ "<?php $view['slots']->stop('box_buttons') ?>" }}
 
 <div class="padded">
+
+    <div class="time pull-right">
+        <i class="icon-time"></i> <?=$view['translator']->trans('global.last_edit')?> <?=$view['date']->format($entity->getDateUpdated(), 'Y-m-d H:i:s')?>
+    </div>
+
     <div class="section-title">
         <?=$view['translator']->trans('{{ translation_global_prefix }}general_information')?>
     </div>
