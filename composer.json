@@ -19,5 +19,5 @@
         "psr-0": { "Estina\\GeneratorBundle": "" }
     },
     "target-dir": "Estina/GeneratorBundle",
-    "minimum-stability": "dev",
+    "minimum-stability": "dev"
 }
