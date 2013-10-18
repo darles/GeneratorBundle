@@ -23,6 +23,7 @@ class DoctrineCrudGenerator extends BaseGenerator
         $this->generateServiceClass();
         $this->generateServiceTestClass();
         $this->generateDictionary();
+        $this->generateDataFixture);
     }
 
     /**
@@ -98,6 +99,37 @@ class DoctrineCrudGenerator extends BaseGenerator
             'translations' => $translations,
             'translations_global' => $translationsGlobal,
             'entity' => $this->entity,
+        ));
+    }
+
+    /**
+     * Generates data fixtures for entity
+     *
+     */
+    protected function generateDataFixture()
+    {
+        $name = strtolower(str_replace('\\', '_', $this->entity));
+        $target = sprintf(
+            '%s/DataFixtures/ORM/Load%sData.php',
+            $this->bundle->getPath(),
+            $this->entity
+        );
+
+        $data = array(
+            'setName' => array(
+                'value' => 'Labadiena',
+                'slug' => 'slug',
+            ),
+            'setValue' => array(
+                'value' => 'Labadiena',
+                'slug' => 'slug',
+            ),
+        );
+
+        $this->renderFile('crud/datafixtures/data.php.twig', $target, array(
+            'entity' => $this->entity,
+            'entity_prefix' => $name,
+            'fixturedata' => $data,
         ));
     }
 

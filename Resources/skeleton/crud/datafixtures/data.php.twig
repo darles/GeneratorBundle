@@ -1,0 +1,40 @@
+<?php
+
+namespace {{ namespace }}\DataFixtures\ORM;
+
+use {{ namespace }}\Entity\{{ entity }};
+
+/**
+ * Signal sample data fixtures.
+ */
+class Load{{ entity }}Data
+{
+    /**
+     * Load dev data
+     *
+     * @param ObjectManager $manager
+     */
+    public function loadDev(ObjectManager $manager)
+    {
+        $service = $this->container->get('{{ serviceId }}');
+
+        $entity = $service->getNew();
+
+{%- for setter, meta in fixturedata %}
+        $entity->{{ setter }}('{{ meta.value }}');
+
+        {% if meta.slug %}
+        $this->addReference('{{ entity_prefix }}.{{ meta.slug }}', $entity);
+        {% endif %}
+
+        $service->create($entity);
+{% endfor %}
+
+        $service->save();
+    }
+
+    public function getOrder()
+    {
+        return 1;
+    }
+}
