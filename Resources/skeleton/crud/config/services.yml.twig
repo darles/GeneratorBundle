@@ -13,7 +13,7 @@ services:
 
     {{ service }}:
         class: %{{ service }}.class%
-        arguments: 
+        arguments:
             - @doctrine.orm.entity_manager
             - @{{ repository }}
 
@@ -27,3 +27,5 @@ services:
         factory_method: create
         factory_service: form.factory
         arguments: [ @{{ formTypeService }}  ]
+
+imports:
