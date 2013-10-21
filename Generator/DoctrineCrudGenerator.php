@@ -23,7 +23,7 @@ class DoctrineCrudGenerator extends BaseGenerator
         $this->generateServiceClass();
         $this->generateServiceTestClass();
         $this->generateDictionary();
-        $this->generateDataFixture);
+        $this->generateDataFixture();
     }
 
     /**
