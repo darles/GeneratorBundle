@@ -3,12 +3,17 @@
 namespace {{ namespace }}\DataFixtures\ORM;
 
 use {{ namespace }}\Entity\{{ entity }};
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use EstinaCMF\CoreBundle\DataFixtures\ORM\AbstractFixture;
 
 /**
  * Signal sample data fixtures.
  */
-class Load{{ entity }}Data
+class Load{{ entity }}Data extends AbstractFixture implements OrderedFixtureInterface
 {
+    private $numOfEntries = {{ numOfEntries }};
+
     /**
      * Load dev data
      *
@@ -16,21 +21,35 @@ class Load{{ entity }}Data
      */
     public function loadDev(ObjectManager $manager)
     {
-        $service = $this->container->get('{{ serviceId }}');
+        $service = $this->getService();
 
-        $entity = $service->getNew();
-
-{%- for setter, meta in fixturedata %}
-        $entity->{{ setter }}('{{ meta.value }}');
-
-        {% if meta.slug %}
-        $this->addReference('{{ entity_prefix }}.{{ meta.slug }}', $entity);
-        {% endif %}
-
-        $service->create($entity);
-{% endfor %}
+        for ($i = 0; $i < $this->numOfEntries; $i++) {
+            $service->create($this->newEntity($i));
+        }
 
         $service->save();
+    }
+
+    private function newEntity($index)
+    {
+        $slug = '{{ entity|lower }}.' . $index;
+        $entity = $this->getService()->getNew();
+
+{% for setter, meta in fixturedata %}
+        $entity->{{ setter }}($this->getRandomValueByType('{{ meta.type }}', '{{ meta.fieldName }}'));
+{% endfor %}
+
+{% if sluggable %}
+        $entity->setSlug($slug);
+{% endif %}
+        $this->addReference($slug, $entity);
+
+        return $entity;
+    }
+
+    private function getService()
+    {
+        return $this->container->get('vilturas_order.service.order');
     }
 
     public function getOrder()

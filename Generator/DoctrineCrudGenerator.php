@@ -115,21 +115,22 @@ class DoctrineCrudGenerator extends BaseGenerator
             $this->entity
         );
 
-        $data = array(
-            'setName' => array(
-                'value' => 'Labadiena',
-                'slug' => 'slug',
-            ),
-            'setValue' => array(
-                'value' => 'Labadiena',
-                'slug' => 'slug',
-            ),
-        );
+        $data = array();
+        foreach ($this->metadata->fieldMappings as $fieldName => $metadata) {
+            if (in_array($fieldName, array('id', 'slug'))) {
+                continue;
+            }
+            $data['set' . ucfirst($fieldName)] = $metadata;
+        }
 
         $this->renderFile('crud/datafixtures/data.php.twig', $target, array(
             'entity' => $this->entity,
             'entity_prefix' => $name,
             'fixturedata' => $data,
+            'service' => $this->getServiceId(),
+            'namespace' => $this->bundle->getNamespace(),
+            'numOfEntries' => 10,
+            'sluggable' => isset($this->metadata->fieldMappings['slug']),
         ));
     }
 
