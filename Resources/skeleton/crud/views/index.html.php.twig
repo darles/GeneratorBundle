@@ -21,7 +21,29 @@
     {% endif %}
 {{ "<? $view['slots']->stop('box_buttons') ?>" }}
 
-<table class="table table-bordered table-striped"> 
+<form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" method="post" class="form-horizontal" {{ "<?= $view['form']->enctype($searchForm) ?>" }}>
+    <fieldset>
+        <h2>Filter</h2>
+{% for field, metadata in fields %}
+            <?= $view['form']->row($searchForm['{{ field }}'], array('label' => '{{ translation_prefix }}{{ field }}')) ?>
+{% endfor %}
+
+        <div class="control-group">
+            <label class="control-label">&nbsp;</label>
+            <div class="controls">
+                <button type="submit" class="btn medium-blue">
+                    <i class="icon-edit"></i> <?=$view['translator']->trans('global.save')?>
+                </button>
+                &nbsp;
+                <a href="<?= $view['router']->generate('vilturas_order.order') ?>" class="btn red">
+                    <i class="icon-remove"></i> <?=$view['translator']->trans('global.cancel')?>
+                </a>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <td><?=$view['translator']->trans('{{ translation_global_prefix }}name')?></td>
@@ -36,10 +58,10 @@
                     {{ '<?=(string)$entity?>' }}
                 </a>
             </td>
-            <td style="width: 20%"> 
+            <td style="width: 20%">
                 {%- include "views/others/actions.html.php.twig" %}
             </td>
-        </tr>    
+        </tr>
         {{ '<? endforeach;?>' }}
         {{ '<? if (empty($entities)): ?>' }}
         <tr>

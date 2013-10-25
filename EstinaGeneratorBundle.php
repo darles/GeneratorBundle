@@ -5,6 +5,7 @@ namespace Estina\GeneratorBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\Console\Application;
 use Estina\GeneratorBundle\Generator\DoctrineCrudGenerator;
+use Estina\GeneratorBundle\Generator\DoctrineFormGenerator;
 use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -14,6 +15,7 @@ class EstinaGeneratorBundle extends Bundle
     {
         $kernel = $this->container->get('kernel');
 
+        $this->registerFormCommand($application);
         $this->registerCrudCommand($application);
         $this->registerBundleCommand($application);
 
@@ -21,12 +23,12 @@ class EstinaGeneratorBundle extends Bundle
     }
 
     /**
-     * Load doctrine:generate:crud command and set new generator class instance created with 
+     * Load doctrine:generate:crud command and set new generator class instance created with
      * custom skeleton directories
      *
      * @param Application $application
      *
-     */ 
+     */
     public function registerCrudCommand(Application $application)
     {
         $crudCommand = $application->get('doctrine:generate:crud');
@@ -39,12 +41,12 @@ class EstinaGeneratorBundle extends Bundle
     }
 
     /**
-     * Load generate:bundle command and set new generator class instance created with 
+     * Load generate:bundle command and set new generator class instance created with
      * custom skeleton directories
      *
      * @param Application $application
      *
-     */ 
+     */
     public function registerBundleCommand(Application $application)
     {
         $crudCommand = $application->get('generate:bundle');
@@ -57,16 +59,34 @@ class EstinaGeneratorBundle extends Bundle
     }
 
     /**
+     * Load generate:form command and set new generator class instance created with
+     * custom skeleton directories
+     *
+     * @param Application $application
+     *
+     */
+    public function registerFormCommand(Application $application)
+    {
+        $crudCommand = $application->get('doctrine:generate:form');
+
+        $dirs = $this->getDirs('crud');
+
+        $generator = new DoctrineFormGenerator($this->container->get('filesystem'));
+        $generator->setSkeletonDirs($dirs);
+        $crudCommand->setGenerator($generator);
+    }
+
+    /**
      * Directory list where to look for skeleton files for particular generatorName
      *
      * @param string $generatorName
-     * @return array 
+     * @return array
      *
      */
     public function getDirs($generatorName)
     {
         $kernel = $this->container->get('kernel');
-        
+
         $return = array(
             $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton/' . $generatorName,
             $kernel->getRootDir() . '/Resources/' . $this->getName() . '/skeleton',

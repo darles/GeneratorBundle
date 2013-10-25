@@ -2,6 +2,7 @@ parameters:
     {{ repository }}.class: {{ namespace }}\Entity\{{ entity }}Repository
     {{ service }}.class: {{ namespace }}\Service\{{ entity }}Service
     {{ formTypeService }}.class: {{ namespace }}\Form\{{ entity }}Type
+    {{ formSearchTypeService }}.class: {{ namespace }}\Form\{{ entity }}SearchType
 
 services:
     {{ repository }}:
@@ -22,10 +23,21 @@ services:
         tags:
             - { name: form.type }
 
+    {{ formSearchTypeService }}:
+        class: %{{ formSearchTypeService }}.class%
+        tags:
+            - { name: form.type }
+
     {{ formService }}:
         class: %form.factory.class%
         factory_method: create
         factory_service: form.factory
         arguments: [ @{{ formTypeService }}  ]
+
+    {{ formSearchService }}:
+        class: %form.factory.class%
+        factory_method: create
+        factory_service: form.factory
+        arguments: [ @{{ formSearchTypeService }}  ]
 
 imports:

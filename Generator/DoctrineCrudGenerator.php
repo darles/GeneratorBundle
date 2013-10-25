@@ -192,7 +192,9 @@ class DoctrineCrudGenerator extends BaseGenerator
             'service'           => $this->getServiceId(),
             'repository'           => $this->getRepositoryId(),
             'formService'       => $this->getFormServiceId(),
+            'formSearchService'       => $this->getFormSearchServiceId(),
             'formTypeService'       => $this->getFormTypeServiceId(),
+            'formSearchTypeService'       => $this->getFormSearchTypeServiceId(),
         ));
 
         $services = $this->bundle->getPath() . '/Resources/config/services.' . $format;
@@ -236,6 +238,7 @@ class DoctrineCrudGenerator extends BaseGenerator
             'namespace'         => $this->bundle->getNamespace(),
             'entity_namespace'  => $entityNamespace,
             'format'            => $this->format,
+            'formSearchService'       => $this->getFormSearchServiceId(),
             // customizations
             'service'           => $this->getServiceId(),
             'formService'       => $this->getFormServiceId(),
@@ -404,9 +407,19 @@ class DoctrineCrudGenerator extends BaseGenerator
         return strtolower($this->getServiceIdPrefix() . '.form.' .  $this->entity);
     }
 
+    protected function getFormSearchServiceId()
+    {
+        return strtolower($this->getServiceIdPrefix() . '.form.' .  $this->entity . '_search');
+    }
+
     protected function getFormTypeServiceId()
     {
         return strtolower($this->getServiceIdPrefix() . '.form.type.' .  $this->entity);
+    }
+
+    protected function getFormSearchTypeServiceId()
+    {
+        return strtolower($this->getServiceIdPrefix() . '.form.type.' .  $this->entity . '_search');
     }
 
     /**

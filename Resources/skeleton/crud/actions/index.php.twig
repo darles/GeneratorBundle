@@ -11,15 +11,19 @@
     public function indexAction()
     {
         $service = $this->get('{{ service }}');
+        $searchForm = $this->get('{{ formSearchService }}');
+
         $entities = $service->getAll();
 
 {% if 'annotation' == format %}
         return array(
             'entities' => $entities,
+            'searchForm'   => $searchForm->createView(),
         );
 {% else %}
         return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:index.html.{{ viewFormat }}', array(
             'entities' => $entities,
+            'searchForm'   => $searchForm->createView(),
         ));
 {% endif %}
     }
