@@ -243,6 +243,7 @@ class DoctrineCrudGenerator extends BaseGenerator
             'service'           => $this->getServiceId(),
             'formService'       => $this->getFormServiceId(),
             'viewFormat'        => $this->viewFormat,
+            'filterService'     => 'estinacmf_core.service.filter',
         ));
     }
 
@@ -310,7 +311,7 @@ class DoctrineCrudGenerator extends BaseGenerator
      */
     protected function generateIndexView($dir)
     {
-        $this->renderFile('views/index.html.' . $this->viewFormat . '.twig', $dir.'/index.html.' . $this->viewFormat, array(
+        $params = array(
             'entity'            => $this->entity,
             'fields'            => $this->metadata->fieldMappings,
             'actions'           => $this->actions,
@@ -319,7 +320,12 @@ class DoctrineCrudGenerator extends BaseGenerator
             'route_name_prefix' => $this->routeNamePrefix,
             'translation_prefix' => $this->translationPrefix,
             'translation_global_prefix' => $this->translationGlobalPrefix,
-        ));
+            'bundle'            => $this->bundle->getName(),
+        );
+
+        $this->renderFile('views/index.html.' . $this->viewFormat . '.twig', $dir.'/index.html.' . $this->viewFormat, $params);
+        $this->renderFile('views/_filter.html.' . $this->viewFormat . '.twig', $dir.'/_filter.html.' . $this->viewFormat, $params);
+        $this->renderFile('views/_actions.html.' . $this->viewFormat . '.twig', $dir.'/_actions.html.' . $this->viewFormat, $params);
     }
 
     /**

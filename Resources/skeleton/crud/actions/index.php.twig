@@ -8,12 +8,17 @@
      * @Template()
 {% endif %}
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $service = $this->get('{{ service }}');
         $searchForm = $this->get('{{ formSearchService }}');
+        $filterService = $this->get('{{ filterService }}')->load('{{ service }}');
 
-        $entities = $service->getAll();
+        if ($reload = $filterService->bind($searchForm, $request)) {
+            return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
+        }
+
+        $entities = $service->getAllFiltered($filterService);
 
 {% if 'annotation' == format %}
         return array(

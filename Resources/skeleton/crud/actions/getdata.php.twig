@@ -1,0 +1,18 @@
+
+    /**
+     * Lists all {{ entity }} entities via ajax
+     *
+{% if 'annotation' == format %}
+     * @Route("/", name="{{ route_name_prefix }}_getdata")
+     * @Method("GET")
+{% endif %}
+     */
+    public function getDataAction(Request $request)
+    {
+        $service = $this->get('{{ service }}');
+        $filterService = $this->get('{{ filterService }}')->load('{{ service }}');
+
+        $dataTable = $service->getDataTable($filterService);
+
+        return new JsonResponse($dataTable->getData());
+    }

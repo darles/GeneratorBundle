@@ -21,54 +21,19 @@
     {% endif %}
 {{ "<? $view['slots']->stop('box_buttons') ?>" }}
 
-<form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" method="post" class="form-horizontal" {{ "<?= $view['form']->enctype($searchForm) ?>" }}>
-    <fieldset>
-        <h2>Filter</h2>
-{% for field, metadata in fields %}
-            <?= $view['form']->row($searchForm['{{ field }}'], array('label' => '{{ translation_prefix }}{{ field }}')) ?>
-{% endfor %}
+{{ "<?=$view->render('" ~ bundle ~ ":" ~ entity ~ ":_filter.html.php', array('form' => $searchForm))?>" }}
 
-        <div class="control-group">
-            <label class="control-label">&nbsp;</label>
-            <div class="controls">
-                <button type="submit" class="btn medium-blue">
-                    <i class="icon-edit"></i> <?=$view['translator']->trans('global.save')?>
-                </button>
-                &nbsp;
-                <a href="<?= $view['router']->generate('vilturas_order.order') ?>" class="btn red">
-                    <i class="icon-remove"></i> <?=$view['translator']->trans('global.cancel')?>
-                </a>
-            </div>
-        </div>
-    </fieldset>
-</form>
-
-<table class="table table-bordered table-striped">
+<table
+    class="table table-bordered table-striped data-table"
+    data-bind="dataTable"
+    data-source="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_getdata') ?>" }}"
+    data-actions-prototype="{{ "<?=$view->escape($view->render('" ~ bundle ~ ":" ~ entity ~ ":_actions.html.php')) ?>" }}"
+>
     <thead>
         <tr>
-            <td><?=$view['translator']->trans('{{ translation_global_prefix }}name')?></td>
-            <td><?=$view['translator']->trans('{{ translation_global_prefix }}actions')?></td>
+            <td><?=$view['translator']->trans('global.id')?></td>
+            <td><?=$view['translator']->trans('global.name')?></td>
+            <td><?=$view['translator']->trans('global.actions')?></td>
         </tr>
     </thead>
-    <tbody>
-        {{ '<? foreach ($entities as $entity):?>' }}
-        <tr>
-            <td>
-                <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "_edit', array('id' => $entity->getId())) ?>" }}">
-                    {{ '<?=(string)$entity?>' }}
-                </a>
-            </td>
-            <td style="width: 20%">
-                {%- include "views/others/actions.html.php.twig" %}
-            </td>
-        </tr>
-        {{ '<? endforeach;?>' }}
-        {{ '<? if (empty($entities)): ?>' }}
-        <tr>
-            <td colspan="3">
-                <?=$view['translator']->trans('{{ translation_global_prefix }}no_entries')?>
-            </td>
-        </tr>
-        {{ '<? endif;?>' }}
-    </tbody>
 </table>

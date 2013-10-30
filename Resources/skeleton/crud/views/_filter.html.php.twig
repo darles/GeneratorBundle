@@ -1,0 +1,21 @@
+<form action="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "') ?>" }}" method="post" class="form-horizontal filter" {{ "<?= $view['form']->enctype($form) ?>" }}>
+    <fieldset>
+        <legend>{{ "<?=$view['translator']->trans('global.filter')?>" }}</legend>
+{% for field, metadata in fields %}
+        <?= $view['form']->widget($form['{{ field }}'], array('attr' => array('placeholder' => $view['translator']->trans('{{ translation_prefix }}{{ field }}')))) ?>
+{% endfor %}
+
+        <div class="control-group">
+            <label class="control-label">&nbsp;</label>
+            <div class="controls">
+                <button type="submit" class="btn medium-blue">
+                    <i class="icon-edit"></i> <?=$view['translator']->trans('{{ translation_global_prefix }}filter')?>
+                </button>
+                &nbsp;
+                <a href="{{ "<?= $view['router']->generate('" ~ route_name_prefix ~ "', array('reset_filter' => true)) ?>" }}" class="btn red">
+                    <i class="icon-remove"></i> <?=$view['translator']->trans('{{ translation_global_prefix }}reset')?>
+                </a>
+            </div>
+        </div>
+    </fieldset>
+</form>

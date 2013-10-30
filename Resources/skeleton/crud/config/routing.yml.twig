@@ -2,6 +2,10 @@
 {{ route_name_prefix }}:
     pattern:  /
     defaults: { _controller: "{{ bundle }}:{{ entity }}:index" }
+
+{{ route_name_prefix }}_getdata:
+    pattern:  /getdata
+    defaults: { _controller: "{{ bundle }}:{{ entity }}:getdata" }
 {% endif %}
 
 {% if 'show' in actions %}

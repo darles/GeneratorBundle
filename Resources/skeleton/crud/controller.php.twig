@@ -23,6 +23,7 @@ class {{ entity_class }}Controller extends Controller
 {
     {%- if 'index' in actions %}
         {%- include 'actions/index.php.twig' %}
+        {%- include 'actions/getdata.php.twig' %}
     {%- endif %}
 
     {%- if 'new' in actions %}
