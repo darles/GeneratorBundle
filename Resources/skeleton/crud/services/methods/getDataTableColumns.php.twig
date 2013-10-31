@@ -1,0 +1,14 @@
+
+    /**
+     * Get columns to be shown in datatable
+     *
+     * @return array
+     */
+    public function getDataTableColumns()
+    {
+        return array(
+            'id',
+            '{{ nameField }}',
+            DataTableResult::COLUMN_ACTIONS
+        );
+    }

@@ -11,8 +11,9 @@
     {
         $service = $this->get('{{ service }}');
         $filterService = $this->get('{{ filterService }}')->load('{{ service }}');
+        $dataTableService = $this->get('estinacmf_core.service.datatable');
 
-        $dataTable = $service->getDataTable($filterService);
+        $dataTable = $service->getDataTable($dataTableService, $filterService);
 
         return new JsonResponse($dataTable->getData());
     }

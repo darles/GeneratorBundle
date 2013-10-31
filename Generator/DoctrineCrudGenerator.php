@@ -301,6 +301,8 @@ class DoctrineCrudGenerator extends BaseGenerator
             'form_type_name'    => strtolower(str_replace('\\', '_', $this->bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$entityClass.'Type'),
             'bundle'            => $this->bundle->getName(),
             'service'           => $this->getServiceId(),
+            'getters'           => $this->getGetters(),
+            'nameField'         => $this->getNameField(),
         ));
     }
 
@@ -354,8 +356,7 @@ class DoctrineCrudGenerator extends BaseGenerator
      */
     protected function generateNewView($dir)
     {
-        $fields = $this->metadata->fieldMappings;
-        unset($fields['id']);
+        $fields = $this->getFormFields();
 
         $this->renderFile('views/new.html.' . $this->viewFormat . '.twig', $dir.'/new.html.' . $this->viewFormat, array(
             'route_prefix'      => $this->routePrefix,
@@ -375,8 +376,7 @@ class DoctrineCrudGenerator extends BaseGenerator
      */
     protected function generateEditView($dir)
     {
-        $fields = $this->metadata->fieldMappings;
-        unset($fields['id']);
+        $fields = $this->getFormFields();
 
         $this->renderFile('views/edit.html.' . $this->viewFormat . '.twig', $dir.'/edit.html.' . $this->viewFormat, array(
             'route_prefix'      => $this->routePrefix,
@@ -436,6 +436,10 @@ class DoctrineCrudGenerator extends BaseGenerator
     {
         $methods = array(
             '__construct',
+            'toArray',
+            'getDataTableColumns',
+            'getDataTable',
+            'getAllFiltered',
             'getNew',
             'get',
             'getAll',
@@ -466,6 +470,32 @@ class DoctrineCrudGenerator extends BaseGenerator
         );
 
         return $methods;
+    }
+
+    /**
+     * Get field where entity name (or other representative value) is stored
+     *
+     * @return string
+     */
+    public function getNameField()
+    {
+        $return = '';
+
+        $fields = $this->metadata->fieldMappings;
+        foreach ($fields as $field => $metadata) {
+            if ($field == 'id') {
+                continue;
+            }
+
+            if (strstr($field, 'date')) {
+                continue;
+            }
+
+            $return = $field;
+            break;
+        }
+
+        return $return;
     }
 
     /**
@@ -509,6 +539,16 @@ class DoctrineCrudGenerator extends BaseGenerator
         return array_filter($this->actions, function($item) {
             return in_array($item, array('show', 'edit', 'delete'));
         });
+    }
+
+    protected function getFormFields()
+    {
+        $fields = $this->metadata->fieldMappings;
+        unset($fields['id']);
+        unset($fields['dateCreated']);
+        unset($fields['dateUpdated']);
+
+        return $fields;
     }
 
 }

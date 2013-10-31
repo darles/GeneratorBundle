@@ -49,7 +49,7 @@ class Load{{ entity }}Data extends AbstractFixture implements OrderedFixtureInte
 
     private function getService()
     {
-        return $this->container->get('vilturas_order.service.order');
+        return $this->container->get('{{ service }}');
     }
 
     public function getOrder()

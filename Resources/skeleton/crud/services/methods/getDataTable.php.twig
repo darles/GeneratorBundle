@@ -1,0 +1,21 @@
+
+    /**
+     * Get data for datatable
+     *
+     * @param DataTableService $dataTableService
+     * @param FilterService $filter
+     * @return DataTableResult
+     */
+    public function getDataTable(DataTableService $dataTableService, FilterService $filter)
+    {
+        $dataTable = $dataTableService->getDataTable($this->getDataTableColumns());
+
+        $alias = 'e';
+        $builder = $this->repo->createQueryBuilder($alias);
+        $dataTable->alterQueryBuilder($builder, $alias);
+        $filter->alterQueryBuilder($builder, $alias, $this);
+
+        $query = $builder->getQuery();
+
+        return $dataTable->getResult($query);
+    }

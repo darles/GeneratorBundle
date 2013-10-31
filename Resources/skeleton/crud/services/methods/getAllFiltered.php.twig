@@ -1,0 +1,11 @@
+
+    /**
+     * Get all filtered data
+     *
+     * @param  FilterService $filterService
+     * @return array
+     */
+    public function getAllFiltered(FilterService $filterService)
+    {
+        return $this->repo->findBy($filterService->getFilterData($this));
+    }

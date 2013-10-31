@@ -5,6 +5,9 @@ namespace {{ namespace }}\Service;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use {{ namespace }}\Entity\{{ entity }};
+use EstinaCMF\CoreBundle\Service\FilterService;
+use EstinaCMF\CoreBundle\Service\DataTableService;
+use EstinaCMF\CoreBundle\DataTable\DataTableResult;
 
 class {{ entity }}Service
 {
@@ -17,6 +20,12 @@ class {{ entity }}Service
      * @var Doctrine\ORM\EntityRepository
      */
     private $repo;
+
+    /**
+     *
+     * @var DataTableService
+     */
+    private $dataTableService;
 {# create methods #}
 {% for method in methods %}
 

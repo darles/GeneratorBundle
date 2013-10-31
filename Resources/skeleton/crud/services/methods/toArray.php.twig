@@ -1,0 +1,15 @@
+
+    /**
+     * Serialize entity into array
+     *
+     * @param {{ entity }} $entity
+     * @return array
+     */
+    public function toArray({{ entity }} $entity)
+    {
+        return array(
+{% for field, method in getters %}
+            '{{ field }}' => $entity->{{ method }}(),
+{% endfor %}
+        );
+    }
